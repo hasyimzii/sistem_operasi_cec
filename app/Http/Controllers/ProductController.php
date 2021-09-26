@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Validator;
-use Illuminate\Support\Str;
 
-class UserController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +13,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = \App\Models\User::all();
-        return view('user.index',compact('user'));
+        $product = \App\Models\Product::all();
+        return view('product.index',compact('product'));
     }
 
     /**
@@ -27,7 +25,8 @@ class UserController extends Controller
     public function create()
     {
         $outlet = \App\Models\Outlet::all();
-        return view('user.create',compact('outlet'));
+        $category = \App\Models\Category::all();
+        return view('product.create',compact('outlet','category'));
     }
 
     /**
@@ -42,10 +41,11 @@ class UserController extends Controller
 
         $dataValidator = [
             'outlet_id' => 'required|numeric',
+            'category_id' => 'required|numeric',
             'name' => 'required|string',
-            'email' => 'required|string',
-            'password' => 'required|string|min:8|confirmed',
-            'phone' => 'required|string|max:15',
+            'stock' => 'required|numeric',
+            'price' => 'required|numeric|max:6',
+            'description' => 'required|string',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
@@ -53,16 +53,15 @@ class UserController extends Controller
         }
 
         $dataCreate = [
-            'role_id' => 2,
             'outlet_id' => $request->outlet_id,
+            'category_id' => $request->category_id,
             'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'phone' => $request->phone,
-            'active' => 1,
+            'stock' => $request->stock,
+            'price' => $request->price,
+            'description' => $request->description,
         ];
-        $user = \App\Models\User::create($dataCreate);
-        return response()->json(['status' => true ,'message' => 'Berhasil menambahkan data karyawan']);
+        $product = \App\Models\Product::create($dataCreate);
+        return response()->json(['status' => true ,'message' => 'Berhasil menambahkan data produk']);
     }
 
     /**
@@ -73,8 +72,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = \App\Models\User::findOrFail($id);
-        return view('user.show',compact('user'));
+        $product = \App\Models\Product::findOrFail($id);
+        return view('product.show',compact('product'));
     }
 
     /**
@@ -85,9 +84,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = \App\Models\User::findOrFail($id);
-        $outlet = \App\Models\Outlet::all();
-        return view('user.edit',compact('user', 'outlet'));
+        $product = \App\Models\Product::findOrFail($id);
+        return view('product.edit',compact('product'));
     }
 
     /**
@@ -99,15 +97,16 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = \App\Models\User::findOrFail($id);
+        $product = \App\Models\Product::findOrFail($id);
         $input = $request->all();
 
         $dataValidator = [
             'outlet_id' => 'required|numeric',
+            'category_id' => 'required|numeric',
             'name' => 'required|string',
-            'email' => 'required|string',
-            'phone' => 'required|string|max:10',
-            'active' => 'required|numeric',
+            'stock' => 'required|numeric',
+            'price' => 'required|numeric|max:6',
+            'description' => 'required|string',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
@@ -116,13 +115,14 @@ class UserController extends Controller
 
         $dataUpdate = [
             'outlet_id' => $request->outlet_id,
+            'category_id' => $request->category_id,
             'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'active' => $request->active,
+            'stock' => $request->stock,
+            'price' => $request->price,
+            'description' => $request->description,
         ];
         $user->update($dataUpdate);
-        return response()->json(['status' => true ,'message' => 'Berhasil memperbarui data karyawan']);
+        return response()->json(['status' => true ,'message' => 'Berhasil memperbarui data produk']);
     }
 
     /**

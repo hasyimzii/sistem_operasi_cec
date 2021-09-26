@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Validator;
-use Illuminate\Support\Str;
 
-class UserController extends Controller
+class OutletController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +13,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = \App\Models\User::all();
-        return view('user.index',compact('user'));
+        $outlet = \App\Models\Outlet::all();
+        return view('outlet.index',compact('outlet'));
     }
 
     /**
@@ -26,8 +24,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $outlet = \App\Models\Outlet::all();
-        return view('user.create',compact('outlet'));
+        return view('outlet.create');
     }
 
     /**
@@ -41,11 +38,9 @@ class UserController extends Controller
         $input = $request->all();
 
         $dataValidator = [
-            'outlet_id' => 'required|numeric',
             'name' => 'required|string',
-            'email' => 'required|string',
-            'password' => 'required|string|min:8|confirmed',
             'phone' => 'required|string|max:15',
+            'address' => 'required|string',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
@@ -53,16 +48,12 @@ class UserController extends Controller
         }
 
         $dataCreate = [
-            'role_id' => 2,
-            'outlet_id' => $request->outlet_id,
             'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
             'phone' => $request->phone,
-            'active' => 1,
+            'address' => $request->address,
         ];
-        $user = \App\Models\User::create($dataCreate);
-        return response()->json(['status' => true ,'message' => 'Berhasil menambahkan data karyawan']);
+        $outlet = \App\Models\Outlet::create($dataCreate);
+        return response()->json(['status' => true ,'message' => 'Berhasil menambahkan data outlet']);
     }
 
     /**
@@ -73,8 +64,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = \App\Models\User::findOrFail($id);
-        return view('user.show',compact('user'));
+        $outlet = \App\Models\Outlet::findOrFail($id);
+        return view('outlet.show',compact('user'));
     }
 
     /**
@@ -85,9 +76,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = \App\Models\User::findOrFail($id);
-        $outlet = \App\Models\Outlet::all();
-        return view('user.edit',compact('user', 'outlet'));
+        $outlet = \App\Models\Outlet::findOrFail($id);
+        return view('outlet.edit',compact('outlet'));
     }
 
     /**
@@ -99,15 +89,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = \App\Models\User::findOrFail($id);
+        $outlet = \App\Models\Outlet::findOrFail($id);
         $input = $request->all();
 
         $dataValidator = [
-            'outlet_id' => 'required|numeric',
             'name' => 'required|string',
-            'email' => 'required|string',
-            'phone' => 'required|string|max:10',
-            'active' => 'required|numeric',
+            'phone' => 'required|string|max:15',
+            'address' => 'required|string',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
@@ -115,14 +103,12 @@ class UserController extends Controller
         }
 
         $dataUpdate = [
-            'outlet_id' => $request->outlet_id,
             'name' => $request->name,
-            'email' => $request->email,
             'phone' => $request->phone,
-            'active' => $request->active,
+            'address' => $request->address,
         ];
-        $user->update($dataUpdate);
-        return response()->json(['status' => true ,'message' => 'Berhasil memperbarui data karyawan']);
+        $outlet->update($dataUpdate);
+        return response()->json(['status' => true ,'message' => 'Berhasil memperbarui data outlet']);
     }
 
     /**
