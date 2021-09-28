@@ -45,6 +45,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'adm@cec.id',
             'password' => bcrypt('123'),
             'phone' => '088800008888',
+            'active' => 1,
         ]);
 
         \App\Models\User::create([
@@ -54,6 +55,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'emp@cec.id',
             'password' => bcrypt('123'),
             'phone' => '088800008888',
+            'active' => 1,
         ]);
     }
 }

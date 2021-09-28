@@ -62,4 +62,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\Outlet');
     }
+
+    public function history()
+    {
+        return $this->hasMany('App\Models\History');
+    }
 }

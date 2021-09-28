@@ -22,7 +22,7 @@ class CreateExpensesTable extends Migration
             $table->integer('price')->length(6);
             $table->timestamps();
 
-            $table->foreign('outlet_id')->references('id')->on('outlets')->onDelete('cascade');
+            $table->foreign('outlet_id')->references('id')->on('outlets')->onUpdate('cascade');
         });
     }
 

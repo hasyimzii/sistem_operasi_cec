@@ -15,6 +15,11 @@ class Outlet extends Model
     {
         return $this->hasMany('App\Models\User');
     }
+
+    public function history()
+    {
+        return $this->hasMany('App\Models\History');
+    }
     
     public function product()
     {

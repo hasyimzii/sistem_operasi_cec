@@ -21,7 +21,7 @@ class CreateIngredientsTable extends Migration
             $table->char('unit', 10);
             $table->timestamps();
             
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade');
         });
     }
 
