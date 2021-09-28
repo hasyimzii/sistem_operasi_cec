@@ -19,6 +19,7 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', '\App\Http\Controllers\HomeController@index')->name('home');
+    Route::get('/history', '\App\Http\Controllers\HomeController@history')->name('history');
     Route::group(['as' => 'user.','prefix' => 'akun'], function () {
         Route::get('/', '\App\Http\Controllers\UserController@index')->name('index')->middleware('role:admin');
         Route::get('/create', '\App\Http\Controllers\UserController@create')->name('create')->middleware('role:admin');

@@ -97,6 +97,8 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user = auth()->user();
+        $userRole = $user->role()->name;
         $product = \App\Models\Product::findOrFail($id);
         $input = $request->all();
 
@@ -122,6 +124,18 @@ class ProductController extends Controller
             'description' => $request->description,
         ];
         $user->update($dataUpdate);
+
+        if ($userRole == 'karyawan') {
+            $dataHistory = [
+                'user_id' => $user->id(),
+                'outlet_id' => $user->outlet()->id(),
+                'description' => 'Mengubah data produk '. $request->name . 
+                                ' stok: '. $request->stock .
+                                ' harga: '. $request->price,
+            ];
+            $history = \App\Models\History::create($dataHistory);
+        }
+
         return response()->json(['status' => true ,'message' => 'Berhasil memperbarui data produk']);
     }
 
