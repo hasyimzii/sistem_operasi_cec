@@ -21,7 +21,7 @@
                         <div class="row no-gutters">
                             <div class="col-xl-12">
                                 <div class="auth-form">
-                                    <h4 class="text-center mb-4">Sistem Operasional Creative Economy Center</h4>
+                                    <h3 class="text-center mb-4">Sistem Operasional Creative Economy Center</h3>
                                     <form action="{{ route('login') }}" method="post">
                                         @csrf
                                         <div class="form-group">
@@ -36,15 +36,7 @@
                                         <div class="form-group">
                                             <label><strong>Password</strong></label>
                                             <input type="password" class="form-control" name="password" required>
-                                        </div>
-                                        <div class="form-row d-flex justify-content-between mt-4 mb-2">
-                                            <div class="form-group">
-                                                <div class="form-check ml-2">
-                                                    <input class="form-check-input" type="checkbox" name="remember" id="basic_checkbox_1" {{ old('remember') ? 'checked' : '' }}>
-                                                    <label class="form-check-label" for="basic_checkbox_1">ingat Saya</label>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        </div><br>
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-primary btn-block">Login</button>
                                         </div>
