@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Validator;
+use Illuminate\Support\Str;
 
 class OutletController extends Controller
 {
@@ -44,7 +46,7 @@ class OutletController extends Controller
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
-            return response()->json(['status' => false ,'message' => $validator->errors()->all()], 400);
+            return back()->with('error', $validator->errors()->all());
         }
 
         $dataCreate = [
@@ -53,7 +55,7 @@ class OutletController extends Controller
             'address' => $request->address,
         ];
         $outlet = \App\Models\Outlet::create($dataCreate);
-        return response()->json(['status' => true ,'message' => 'Berhasil menambahkan data outlet']);
+        return back()->with('success', 'Berhasil menambahkan data outlet');
     }
 
     /**
@@ -99,7 +101,7 @@ class OutletController extends Controller
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
-            return response()->json(['status' => false ,'message' => $validator->errors()->all()], 400);
+            return back()->with('error', $validator->errors()->all());
         }
 
         $dataUpdate = [
@@ -108,7 +110,7 @@ class OutletController extends Controller
             'address' => $request->address,
         ];
         $outlet->update($dataUpdate);
-        return response()->json(['status' => true ,'message' => 'Berhasil memperbarui data outlet']);
+        return back()->with('success', 'Berhasil memperbarui data outlet');
     }
 
     /**

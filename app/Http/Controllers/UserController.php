@@ -49,7 +49,7 @@ class UserController extends Controller
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
-            return response()->json(['status' => false ,'message' => $validator->errors()->all()], 400);
+            return back()->with('error', $validator->errors()->all());
         }
 
         $dataCreate = [
@@ -62,7 +62,7 @@ class UserController extends Controller
             'active' => 1,
         ];
         $user = \App\Models\User::create($dataCreate);
-        return response()->json(['status' => true ,'message' => 'Berhasil menambahkan data karyawan']);
+        return back()->with('success', 'Berhasil menambahkan data karyawan');
     }
 
     /**
@@ -111,7 +111,7 @@ class UserController extends Controller
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
-            return response()->json(['status' => false ,'message' => $validator->errors()->all()], 400);
+            return back()->with('error', $validator->errors()->all());
         }
 
         $dataUpdate = [
@@ -122,7 +122,7 @@ class UserController extends Controller
             'active' => $request->active,
         ];
         $user->update($dataUpdate);
-        return response()->json(['status' => true ,'message' => 'Berhasil memperbarui data karyawan']);
+        return back()->with('success', 'Berhasil memperbarui data karyawan');
     }
 
     /**

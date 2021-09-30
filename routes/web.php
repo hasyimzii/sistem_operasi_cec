@@ -51,8 +51,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['as' => 'product.','prefix' => 'produk'], function () {
         Route::get('/', '\App\Http\Controllers\ProductController@index')->name('index')->middleware('role:admin');
         Route::get('{id}/stok', '\App\Http\Controllers\ProductController@list')->name('list')->middleware('role:admin');
-        Route::get('/create', '\App\Http\Controllers\ProductController@create')->name('create')->middleware('role:admin');
-        Route::post('/create', '\App\Http\Controllers\ProductController@store')->name('store')->middleware('role:admin');
+        Route::get('{id}/create', '\App\Http\Controllers\ProductController@create')->name('create')->middleware('role:admin');
+        Route::post('{id}/create', '\App\Http\Controllers\ProductController@store')->name('store')->middleware('role:admin');
         Route::get('{id}/show', '\App\Http\Controllers\ProductController@show')->name('show')->middleware('role:admin,employee');
         Route::get('{id}/edit', '\App\Http\Controllers\ProductController@edit')->name('edit')->middleware('role:admin');
         Route::patch('{id}/edit', '\App\Http\Controllers\ProductController@update')->name('update')->middleware('role:admin');

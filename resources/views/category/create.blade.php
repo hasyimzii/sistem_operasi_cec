@@ -18,7 +18,7 @@
 </div>
 <!-- row -->
 
-<div class="col-xl-6 col-xxl-12">
+<div class="col-xl-12 col-xxl-12">
     <div class="card">
         @if ($message = Session::get('success'))
         <div class="mt-4 mb-0 mx-4 alert alert-success alert-block">
@@ -26,19 +26,21 @@
             {{ $message }}
         </div>
         @elseif ($message = Session::get('error'))
-        <div class="mt-4 mb-0 mx-4 alert alert-danger alert-block">
-            <button type="button" class="close" data-dismiss="alert">×</button>    
-            {{ $message }}
-        </div>
+            @foreach($message as $msg)
+            <div class="mt-4 mb-0 mx-4 alert alert-danger alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{ $msg }}
+            </div>
+            @endforeach 
         @endif
         <div class="card-body">
             <div class="basic-form">
-                <form action="{{ route('category.create') }}" method="post">
+                <form action="{{ route('category.store') }}" method="post">
                     @csrf
                     <div class="form-row">
                         <div class="col-sm-5">
                             <label>Nama Kategori</label>
-                            <input type="text" class="form-control" name="name" placeholder="Tulis nama kategori" required>
+                            <input type="text" class="form-control" name="name" placeholder="Tulis nama kategori..." required>
                         </div>
                     </div><br>
                     <button type="submit" class="btn btn-primary col-sm-5">Tambah Data</button>

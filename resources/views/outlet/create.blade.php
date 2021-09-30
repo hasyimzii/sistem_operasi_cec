@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Kategori')
+@section('title', 'Tambah Outlet')
 @section('content')
 <div class="row page-titles mx-0" style="background: #343957;">
     <div class="col-sm-6 mt-1 p-md-0">
         <div class="welcome-text">
-            <h4 class="text-white">Edit Kategori</h4>
+            <h4 class="text-white">Tambah Outlet</h4>
         </div>
     </div>
     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-        <a href="{{ route('category.index') }}">
+        <a href="{{ route('outlet.index') }}">
             <button type="button" class="btn btn-light">
                 Kembali
             </button>
@@ -35,18 +35,23 @@
         @endif
         <div class="card-body">
             <div class="basic-form">
-                <form
-                    action="{{ route('category.update', $category->id) }}">
+                <form action="{{ route('outlet.store') }}" method="post">
                     @csrf
-                    @method('patch')
-                    <div class="form-row">
-                        <div class="col-sm-5">
-                            <label>Nama Kategori</label>
-                            <input type="text" class="form-control" name="name" value="{{ $category->name }}"
-                                placeholder="Tulis nama kategori..."  required>
-                        </div>
+                    <div class="form-group">
+                        <label>Nama Outlet</label>
+                        <input type="text" class="form-control input-default " name="name"
+                            placeholder="Tulis nama outlet..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>No. Telpon</label>
+                        <input type="text" class="form-control input-default " name="phone"
+                            placeholder="Tulis no. telpon outlet... (e.g. 088812459583)" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat Outlet</label>
+                        <textarea class="form-control" rows="4" name="address" placeholder="Tulis alamat outlet..." required></textarea>
                     </div><br>
-                    <button type="submit" class="btn btn-primary col-sm-5">Edit Data</button>
+                    <button type="submit" class="btn btn-block btn-primary">Tambah Data</button>
                 </form>
             </div>
         </div>
