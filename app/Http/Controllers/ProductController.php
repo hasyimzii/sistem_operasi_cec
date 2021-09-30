@@ -13,8 +13,20 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = \App\Models\Product::all();
-        return view('product.index',compact('product'));
+        $outlet = \App\Models\Outlet::all();
+        return view('product.index',compact('outlet'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function list($id)
+    {
+        $product = \App\Models\Product::where('outlet_id', $id)->get();
+        return view('product.show',compact('product'));
     }
 
     /**
@@ -98,7 +110,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $user = auth()->user();
-        $userRole = $user->role()->name;
+        $userRole = $user->role->name;
         $product = \App\Models\Product::findOrFail($id);
         $input = $request->all();
 
@@ -128,7 +140,7 @@ class ProductController extends Controller
         if ($userRole == 'karyawan') {
             $dataHistory = [
                 'user_id' => $user->id(),
-                'outlet_id' => $user->outlet()->id(),
+                'outlet_id' => $user->outlet->id(),
                 'description' => 'Mengubah data produk '. $request->name . 
                                 ' stok: '. $request->stock .
                                 ' harga: '. $request->price,

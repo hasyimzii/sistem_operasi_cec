@@ -20,7 +20,8 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', '\App\Http\Controllers\HomeController@index')->name('home');
-    Route::get('/history', '\App\Http\Controllers\HomeController@history')->name('history');
+    Route::get('/riwayat', '\App\Http\Controllers\HomeController@history')->name('history');
+    // User
     Route::group(['as' => 'user.','prefix' => 'akun'], function () {
         Route::get('/', '\App\Http\Controllers\UserController@index')->name('index')->middleware('role:admin');
         Route::get('/create', '\App\Http\Controllers\UserController@create')->name('create')->middleware('role:admin');
@@ -29,6 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('{id}/edit', '\App\Http\Controllers\UserController@edit')->name('edit')->middleware('role:admin');
         Route::patch('{id}/edit', '\App\Http\Controllers\UserController@update')->name('update')->middleware('role:admin');
     });
+    // Outlet
     Route::group(['as' => 'outlet.','prefix' => 'outlet'], function () {
         Route::get('/', '\App\Http\Controllers\OutletController@index')->name('index')->middleware('role:admin');
         Route::get('/create', '\App\Http\Controllers\OutletController@create')->name('create')->middleware('role:admin');
@@ -37,8 +39,18 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('{id}/edit', '\App\Http\Controllers\OutletController@edit')->name('edit')->middleware('role:admin');
         Route::patch('{id}/edit', '\App\Http\Controllers\OutletController@update')->name('update')->middleware('role:admin');
     });
-    Route::group(['as' => 'product.','prefix' => 'stok'], function () {
+    // Category
+    Route::group(['as' => 'category.','prefix' => 'kategori'], function () {
+        Route::get('/', '\App\Http\Controllers\CategoryController@index')->name('index')->middleware('role:admin');
+        Route::get('/create', '\App\Http\Controllers\CategoryController@create')->name('create')->middleware('role:admin');
+        Route::post('/create', '\App\Http\Controllers\CategoryController@store')->name('store')->middleware('role:admin');
+        Route::get('{id}/edit', '\App\Http\Controllers\CategoryController@edit')->name('edit')->middleware('role:admin');
+        Route::patch('{id}/edit', '\App\Http\Controllers\CategoryController@update')->name('update')->middleware('role:admin');
+    });
+    // Product
+    Route::group(['as' => 'product.','prefix' => 'produk'], function () {
         Route::get('/', '\App\Http\Controllers\ProductController@index')->name('index')->middleware('role:admin');
+        Route::get('{id}/stok', '\App\Http\Controllers\ProductController@list')->name('list')->middleware('role:admin');
         Route::get('/create', '\App\Http\Controllers\ProductController@create')->name('create')->middleware('role:admin');
         Route::post('/create', '\App\Http\Controllers\ProductController@store')->name('store')->middleware('role:admin');
         Route::get('{id}/show', '\App\Http\Controllers\ProductController@show')->name('show')->middleware('role:admin,employee');

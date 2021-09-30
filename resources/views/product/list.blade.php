@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Data Karyawan')
+@section('title', 'Data Stok')
 @section('content')
 <div class="row page-titles mx-0" style="background: #343957;">
     <div class="col-sm-6 mt-1 p-md-0">
         <div class="welcome-text">
-            <h4 class="text-white">Data Karyawan</h4>
+            <h4 class="text-white">Data Stok</h4>
         </div>
     </div>
     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-        <a href="{{ route('user.create') }}">
+        <a href="{{ route('product.create') }}">
             <button type="button" class="btn btn-primary">
                 Tambah Data
             </button>
@@ -27,24 +27,24 @@
                     <table id="example" class="display text-muted" style="min-width: 845px">
                         <thead>
                             <tr>
-                                <th>Nama Lengkap</th>
-                                <th>Outlet Asal</th>
-                                <th>Email</th>
-                                <th>No. Telpon</th>
-                                <th>Status</th>
+                                <th>Nama Produk</th>
+                                <th>Kategori</th>
+                                <th>Stok</th>
+                                <th>Harga</th>
+                                <th>Deskripsi</th>
                                 <th>Edit</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($user as $data)
+                            @forelse($product as $data)
                                 <tr>
                                     <td>{{ $data->name }}</td>
-                                    <td>{{ $data->outlet->name }}</td>
-                                    <td>{{ $data->email }}</td>
-                                    <td>{{ $data->phone }}</td>
-                                    <td>{{ $data->active == 1 ? "Aktif" : "Tidak Aktif" }}</td>
+                                    <td>{{ $data->category->name }}</td>
+                                    <td>{{ $data->stock }}</td>
+                                    <td>{{ $data->price }}</td>
+                                    <td>{{ $data->description }}</td>
                                     <td>
-                                        <a href="{{ route('user.edit', $data->id) }}">
+                                        <a href="{{ route('product.edit', $data->id) }}">
                                             <button type="button" class="btn btn-warning">
                                                 <i class="fa fa-pencil"></i>
                                             </button>

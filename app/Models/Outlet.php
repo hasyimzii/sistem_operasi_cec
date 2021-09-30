@@ -13,21 +13,21 @@ class Outlet extends Model
 
     public function user()
     {
-        return $this->hasMany('App\Models\User');
+        return $this->hasMany(User::class);
     }
 
     public function history()
     {
-        return $this->hasMany('App\Models\History');
+        return $this->hasMany(History::class);
     }
     
     public function product()
     {
-        return $this->hasMany('App\Models\Product');
+        return $this->hasMany(Product::class);
     }
 
     public function expense()
     {
-        return $this->hasMany('App\Models\Expense');
+        return $this->hasMany(Expense::class);
     }
 }

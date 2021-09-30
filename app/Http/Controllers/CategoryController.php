@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Str;
 
-class UserController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = \App\Models\User::where('role_id',2)->get();
-        return view('user.index',compact('user'));
+        $category = \App\Models\Category::all();
+        return view('category.index',compact('category'));
     }
 
     /**
@@ -26,8 +26,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $outlet = \App\Models\Outlet::all();
-        return view('user.create',compact('outlet'));
+        return view('category.create');
     }
 
     /**
@@ -41,28 +40,18 @@ class UserController extends Controller
         $input = $request->all();
 
         $dataValidator = [
-            'outlet_id' => 'required|numeric',
             'name' => 'required|string',
-            'email' => 'required|string',
-            'password' => 'required|string|min:8|confirmed',
-            'phone' => 'required|string|max:15',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
-            return response()->json(['status' => false ,'message' => $validator->errors()->all()], 400);
+            return back()->with('error', $validator->errors()->all());
         }
 
         $dataCreate = [
-            'role_id' => 2,
-            'outlet_id' => $request->outlet_id,
             'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'phone' => $request->phone,
-            'active' => 1,
         ];
-        $user = \App\Models\User::create($dataCreate);
-        return response()->json(['status' => true ,'message' => 'Berhasil menambahkan data karyawan']);
+        $category = \App\Models\Category::create($dataCreate);
+        return back()->with('success', 'Berhasil menambahkan data kategori');
     }
 
     /**
@@ -73,8 +62,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = \App\Models\User::findOrFail($id);
-        return view('user.show',compact('user'));
+        //
     }
 
     /**
@@ -85,9 +73,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = \App\Models\User::findOrFail($id);
-        $outlet = \App\Models\Outlet::all();
-        return view('user.edit',compact('user', 'outlet'));
+        $category = \App\Models\Category::findOrFail($id);
+        return view('category.edit',compact('category'));
     }
 
     /**
@@ -99,30 +86,22 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = \App\Models\User::findOrFail($id);
+        $category = \App\Models\Category::findOrFail($id);
         $input = $request->all();
 
         $dataValidator = [
-            'outlet_id' => 'required|numeric',
             'name' => 'required|string',
-            'email' => 'required|string',
-            'phone' => 'required|string|max:10',
-            'active' => 'required|numeric',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
-            return response()->json(['status' => false ,'message' => $validator->errors()->all()], 400);
+            return back()->with('error', $validator->errors()->all());
         }
 
         $dataUpdate = [
-            'outlet_id' => $request->outlet_id,
             'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'active' => $request->active,
         ];
-        $user->update($dataUpdate);
-        return response()->json(['status' => true ,'message' => 'Berhasil memperbarui data karyawan']);
+        $category->update($dataUpdate);
+        return back()->with('success', 'Berhasil memperbarui data kategori');
     }
 
     /**

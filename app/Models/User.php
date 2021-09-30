@@ -46,7 +46,7 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->belongsTo('App\Models\Role');
+        return $this->belongsTo(Role::class);
     }
 
     public function hasRole($role)
@@ -60,11 +60,11 @@ class User extends Authenticatable
 
     public function outlet()
     {
-        return $this->belongsTo('App\Models\Outlet');
+        return $this->belongsTo(Outlet::class);
     }
 
     public function history()
     {
-        return $this->hasMany('App\Models\History');
+        return $this->hasMany(History::class);
     }
 }

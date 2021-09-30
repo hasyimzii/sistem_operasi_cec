@@ -35,12 +35,12 @@ class HomeController extends Controller
     public function history()
     {
         $user = auth()->user();
-        $userRole = $user->role()->name;
+        $userRole = $user->role->name;
         if($userRole == 'admin') {
             $history = \App\Models\History::orderBy("created_at", "desc")->get();
         }
         else {
-            $outletId = $user->outlet()->id();
+            $outletId = $user->outlet->id();
             $history = \App\Models\History::where('outlet_id', $outletId)->orderBy("created_at", "desc")->get();
         }
         return view('home.history',compact('history'));

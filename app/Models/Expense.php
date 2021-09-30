@@ -13,6 +13,6 @@ class Expense extends Model
 
     public function outlet()
     {
-        return $this->belongsTo('App\Models\Outlet');
+        return $this->belongsTo(Outlet::class);
     }
 }

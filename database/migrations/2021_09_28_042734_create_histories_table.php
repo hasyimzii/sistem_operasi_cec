@@ -16,12 +16,10 @@ class CreateHistoriesTable extends Migration
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('outlet_id');
             $table->text('description');
             $table->timestamps();
             
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
-            $table->foreign('outlet_id')->references('id')->on('outlets')->onUpdate('cascade');
         });
     }
 
