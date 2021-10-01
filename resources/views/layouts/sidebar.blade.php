@@ -18,7 +18,8 @@
             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                 <i class="icon icon-app-store"></i><span class="nav-text">Produk</span></a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('product.index') }}">Stok</a></li>
+                    <li><a href="{{ route('product.index') }}">Data Produk</a></li>
+                    <li><a href="{{ route('stock.index') }}">Stok Produk</a></li>
                     <li><a href="{{ route('category.index') }}">Kategori</a></li>
                 </ul>
             </li>
@@ -63,12 +64,12 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="has-arrow" aria-expanded="false"><i class="icon icon-app-store"></i>
-                    <span class="nav-text">Stok</span>
+                <a href="{{ route('stock.index') }}" class="has-arrow" aria-expanded="false"><i class="icon icon-app-store"></i>
+                    <span class="nav-text">Stok Produk</span>
                 </a>
             </li>
             <li>
-                <a href="#" class="has-arrow" aria-expanded="false"><i class="icon icon-home-minimal"></i>
+                <a href="{{ route('outlet.index') }}" class="has-arrow" aria-expanded="false"><i class="icon icon-home-minimal"></i>
                     <span class="nav-text">Outlet</span>
                 </a>
             </li>
@@ -78,7 +79,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="has-arrow" aria-expanded="false"><i class="icon icon-single-04"></i>
+                <a href="{{ route('user.show', $user->id) }}" class="has-arrow" aria-expanded="false"><i class="icon icon-single-04"></i>
                     <span class="nav-text">Akun</span>
                 </a>
             </li>

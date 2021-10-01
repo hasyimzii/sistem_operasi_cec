@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Str;
 
-class ProductController extends Controller
+class StockController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,34 +15,53 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = \App\Models\Product::all();
-        return view('product.index',compact('product'));
+        $outlet = \App\Models\Outlet::all();
+        return view('stock.index',compact('outlet'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function list($id)
+    {
+        $stock = \App\Models\Stock::where('outlet_id', $id)->get();
+        return view('product.list',compact('product'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
+        $outlet = \App\Models\Outlet::findOrFail($id);
         $category = \App\Models\Category::all();
-        return view('product.create',compact('category'));
+        return view('product.create',compact('outlet','category'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
+     * @param  int  $id
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
+        $user = auth()->user();
+        $userRole = $user->role->name;
         $input = $request->all();
 
         $dataValidator = [
+            'outlet_id' => 'required|numeric',
             'category_id' => 'required|numeric',
             'name' => 'required|string',
+            'stock' => 'required|numeric',
             'price' => 'required|numeric',
             'description' => 'required|string',
         ];
@@ -52,13 +71,25 @@ class ProductController extends Controller
         }
 
         $dataCreate = [
+            'outlet_id' => $request->outlet_id,
             'category_id' => $request->category_id,
             'name' => $request->name,
+            'stock' => $request->stock,
             'price' => $request->price,
             'description' => $request->description,
         ];
+
+        if ($userRole == 'karyawan') {
+            $dataHistory = [
+                'user_id' => $user->id(),
+                'description' => 'Menambah data produk '. $request->name . 
+                                ' stok: '. $request->stock .
+                                ' harga: '. $request->price,
+            ];
+            $history = \App\Models\History::create($dataHistory);
+        }
         $product = \App\Models\Product::create($dataCreate);
-        return back()->with('success', 'Berhasil menambahkan data produk');
+        return back()->with('success', 'Berhasil menambahkan data stok');
     }
 
     /**
@@ -82,8 +113,8 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = \App\Models\Product::findOrFail($id);
-        $category = \App\Models\Category::all();
-        return view('product.edit',compact('product','category'));
+        $outlet = $product->outlet();
+        return view('product.edit',compact('product','outlet'));
     }
 
     /**
@@ -95,12 +126,16 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user = auth()->user();
+        $userRole = $user->role->name;
         $product = \App\Models\Product::findOrFail($id);
         $input = $request->all();
 
         $dataValidator = [
+            'outlet_id' => 'required|numeric',
             'category_id' => 'required|numeric',
             'name' => 'required|string',
+            'stock' => 'required|numeric',
             'price' => 'required|numeric',
             'description' => 'required|string',
         ];
@@ -110,13 +145,25 @@ class ProductController extends Controller
         }
 
         $dataUpdate = [
+            'outlet_id' => $request->outlet_id,
             'category_id' => $request->category_id,
             'name' => $request->name,
+            'stock' => $request->stock,
             'price' => $request->price,
             'description' => $request->description,
         ];
-        $product->update($dataUpdate);
-        return back()->with('success', 'Berhasil memperbarui data produk');
+        $user->update($dataUpdate);
+
+        if ($userRole == 'karyawan') {
+            $dataHistory = [
+                'user_id' => $user->id(),
+                'description' => 'Mengubah data produk '. $request->name . 
+                                ' stok: '. $request->stock .
+                                ' harga: '. $request->price,
+            ];
+            $history = \App\Models\History::create($dataHistory);
+        }
+        return back()->with('success', 'Berhasil memperbarui data stok');
     }
 
     /**

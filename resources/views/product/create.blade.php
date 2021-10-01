@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Stok')
+@section('title', 'Tambah Produk')
 @section('content')
 <div class="row page-titles mx-0" style="background: #343957;">
     <div class="col-sm-6 mt-1 p-md-0">
         <div class="welcome-text">
-            <h4 class="text-white">Tambah Stok</h4>
+            <h4 class="text-white">Tambah Produk</h4>
         </div>
     </div>
     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-        <a href="{{ route('product.list', $outlet->id) }}">
+        <a href="{{ route('product.index') }}">
             <button type="button" class="btn btn-light">
                 Kembali
             </button>
@@ -35,9 +35,8 @@
         @endif
         <div class="card-body">
             <div class="basic-form">
-                <form action="{{ route('product.store', $outlet->id) }}" method="post">
+                <form action="{{ route('product.store') }}" method="post">
                     @csrf
-                    <input type="number" name="outlet_id" value="{{ $outlet->id }}" hidden>
                     <div class="form-group">
                         <label>Kategori Produk (Pilih satu):</label>
                         <select class="form-control" id="sel1" name="category_id">
@@ -51,11 +50,6 @@
                         <label>Nama Produk</label>
                         <input type="text" class="form-control input-default " name="name"
                             placeholder="Tulis nama produk..." required>
-                    </div>
-                    <div class="form-group">
-                        <label>Stok Produk</label>
-                        <input type="number" class="form-control input-default " name="stock"
-                            placeholder="Tulis stok produk..." required>
                     </div>
                     <div class="form-group">
                         <label>Harga Produk</label>
