@@ -36,9 +36,8 @@
         <div class="card-body">
             <div class="basic-form">
                 <form
-                    action="{{ route('category.update', $category->id) }}">
+                    action="{{ route('category.update', $category->id) }}" method="post">
                     @csrf
-                    @method('patch')
                     <div class="form-row">
                         <div class="col-sm-5">
                             <label>Nama Kategori</label>

@@ -32,7 +32,7 @@
                                 <th>Email</th>
                                 <th>No. Telpon</th>
                                 <th>Status</th>
-                                <th>Edit</th>
+                                <th>Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,13 +42,21 @@
                                     <td>{{ $data->outlet->name }}</td>
                                     <td>{{ $data->email }}</td>
                                     <td>{{ $data->phone }}</td>
-                                    <td>{{ $data->active == 1 ? "Aktif" : "Tidak Aktif" }}</td>
+                                    <td>{{ $data->active == 1 ? "Aktif" : "Tidak Aktif" }}
+                                    </td>
                                     <td>
-                                        <a href="{{ route('user.edit', $data->id) }}">
-                                            <button type="button" class="btn btn-warning">
-                                                <i class="fa fa-pencil"></i>
-                                            </button>
-                                        </a>
+                                        <div class="btn-group">
+                                            <a href="{{ route('user.show', $data->id) }}">
+                                                <button type="button" class="btn btn-info">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                            </a>
+                                            <a href="{{ route('user.edit', $data->id) }}">
+                                                <button type="button" class="btn btn-warning">
+                                                    <i class="fa fa-pencil"></i>
+                                                </button>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty

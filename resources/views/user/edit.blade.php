@@ -27,22 +27,24 @@
             </div>
         @elseif($message = Session::get('error'))
             @foreach($message as $msg)
-            <div class="mt-4 mb-0 mx-4 alert alert-danger alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                {{ $msg }}
-            </div>
-            @endforeach 
+                <div class="mt-4 mb-0 mx-4 alert alert-danger alert-block">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    {{ $msg }}
+                </div>
+            @endforeach
         @endif
         <div class="card-body">
             <div class="basic-form">
-                <form action="{{ route('user.update') }}">
+                <form action="{{ route('user.update', $user->id) }}" method="post">
                     @csrf
-                    @method('patch')
+                    <input type="number" name="outlet_id" value="{{ $user->outlet->id }}" hidden>
                     <div class="form-group">
                         <label>Outlet Karyawan (Pilih satu):</label>
                         <select class="form-control" id="sel1" name="outlet_id">
                             @forelse($outlet as $data)
-                            <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                <option value="{{ $data->id }}"
+                                    {{ ($data->id == $user->outlet->id) ? 'selected' :'' }}>
+                                    {{ $data->name }}</option>
                             @empty
                             @endforelse
                         </select>
@@ -54,13 +56,25 @@
                     </div>
                     <div class="form-group">
                         <label>Email Karyawan</label>
-                        <input type="email" class="form-control input-default " name="email" value="{{ $user->email }}"
-                            placeholder="Tulis email karyawan... (e.g. asd@mail.com)" required>
+                        <input type="email" class="form-control input-default " name="email"
+                            value="{{ $user->email }}" placeholder="Tulis email karyawan... (e.g. asd@mail.com)"
+                            required>
                     </div>
                     <div class="form-group">
                         <label>No. Telpon Karwayan</label>
                         <input type="text" class="form-control input-default " name="phone" value="{{ $user->phone }}"
                             placeholder="Tulis no. telpon karyawan... (e.g. 088812459583)" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Status Karyawan (Pilih satu):</label>
+                        <select class="form-control" id="sel1" name="active">
+                            <option value="1"
+                                {{ ($user->active == 1) ? 'selected' :'' }}>
+                                Aktif</option>
+                            <option value="0"
+                                {{ ($user->active == 0) ? 'selected' :'' }}>
+                                Tidak Aktif</option>
+                        </select>
                     </div><br>
                     <button type="submit" class="btn btn-block btn-primary">Edit Data</button>
                 </form>

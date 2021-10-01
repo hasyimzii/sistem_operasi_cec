@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Produk')
+@section('title', 'Edit Stok')
 @section('content')
 <div class="row page-titles mx-0" style="background: #343957;">
     <div class="col-sm-6 mt-1 p-md-0">
         <div class="welcome-text">
-            <h4 class="text-white">Edit Produk</h4>
+            <h4 class="text-white">Edit Stok</h4>
         </div>
     </div>
     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
@@ -41,7 +41,9 @@
                         <label>Kategori Produk (Pilih satu):</label>
                         <select class="form-control" id="sel1" name="category_id">
                             @forelse($category as $data)
-                                <option value="{{ $data->id }}" {{ ($data->id == $product->category->id) ? 'selected' :'' }}>{{ $data->name }}</option>
+                                <option value="{{ $data->id }}"
+                                    {{ ($data->id == $product->category->id) ? 'selected' :'' }}>
+                                    {{ $data->name }}</option>
                             @empty
                             @endforelse
                         </select>
@@ -50,11 +52,6 @@
                         <label>Nama Produk</label>
                         <input type="text" class="form-control input-default " name="name"
                             value="{{ $product->name }}" placeholder="Tulis nama produk..." required>
-                    </div>
-                    <div class="form-group">
-                        <label>Harga Produk</label>
-                        <input type="number" class="form-control input-default " name="price"
-                            value="{{ $product->price }}" placeholder="Tulis harga produk..." required>
                     </div>
                     <div class="form-group">
                         <label>Deskripsi Produk</label>

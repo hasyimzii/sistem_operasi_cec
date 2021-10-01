@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-        <a href="{{ route('product.list', $outlet->id) }}">
+        <a href="{{ route('stock.list', $stock->outlet->id) }}">
             <button type="button" class="btn btn-light">
                 Kembali
             </button>
@@ -35,39 +35,40 @@
         @endif
         <div class="card-body">
             <div class="basic-form">
-                <form action="{{ route('product.update', $product->id) }}" method="post">
+                <form action="{{ route('stock.update', $stock->id) }}" method="post">
                     @csrf
-                    <input type="number" name="outlet_id" value="{{ $outlet->id }}" hidden>
-                    <div class="form-group">
-                        <label>Kategori Produk (Pilih satu):</label>
-                        <select class="form-control" id="sel1" name="category_id">
-                            @forelse($category as $data)
-                                <option value="{{ $data->id }}">{{ $data->name }}</option>
-                            @empty
-                            @endforelse
-                        </select>
+                    <input type="number" name="product_id" value="{{ $stock->product->id }}" hidden>
+                    <div class="form-row">
+                        <div class="col-sm-5">
+                            <label>Nama Produk</label>
+                            <input type="text" class="form-control" value="{{ $stock->product->name }}"
+                                placeholder="Tulis nama kategori..." readonly>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-sm-5">
+                            <label>Stok Produk</label>
+                            <input type="number" class="form-control" name="name" value="{{ $stock->amount }}"
+                                placeholder="Tulis stok produk..."  required>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label>Nama Produk</label>
-                        <input type="text" class="form-control input-default " name="name"
-                            value="{{ $product->name }}" placeholder="Tulis nama produk..." required>
-                    </div>
-                    <div class="form-group">
-                        <label>Stok Produk</label>
-                        <input type="number" class="form-control input-default " name="stock"
-                            value="{{ $product->stock }}" placeholder="Tulis stok produk..." required>
-                    </div>
-                    <div class="form-group">
-                        <label>Harga Produk</label>
+                        <label>Harga Produk (Rp)</label>
                         <input type="number" class="form-control input-default " name="price"
-                            value="{{ $product->price }}" placeholder="Tulis harga produk..." required>
+                            value="{{ $stock->price }}" placeholder="Tulis harga produk..." required>
                     </div>
                     <div class="form-group">
-                        <label>Deskripsi Produk</label>
-                        <textarea class="form-control" rows="5" name="description"
-                            placeholder="Tulis deskripsi produk..." required>{{ $product->description }}</textarea>
+                        <label>Status Produk (Pilih satu):</label>
+                        <select class="form-control" id="sel1" name="active">
+                            <option value="1"
+                                {{ ($stock->active == 1) ? 'selected' :'' }}>
+                                Aktif</option>
+                            <option value="0"
+                                {{ ($stock->active == 0) ? 'selected' :'' }}>
+                                Tidak Aktif</option>
+                        </select>
                     </div><br>
-                    <button type="submit" class="btn btn-block btn-primary">Edit Data</button>
+                    <button type="submit" class="btn btn-primary col-sm-5">Edit Data</button>
                 </form>
             </div>
         </div>

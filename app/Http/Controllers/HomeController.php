@@ -40,8 +40,8 @@ class HomeController extends Controller
             $history = \App\Models\History::orderBy("created_at", "desc")->get();
         }
         else {
-            $outletId = $user->outlet->id();
-            $history = \App\Models\History::where('outlet_id', $outletId)->orderBy("created_at", "desc")->get();
+            $outletId = $user->outlet->id;
+            $history = \App\Models\History::orderBy("created_at", "desc")->get();
         }
         return view('home.history',compact('history'));
     }

@@ -43,7 +43,6 @@ class ProductController extends Controller
         $dataValidator = [
             'category_id' => 'required|numeric',
             'name' => 'required|string',
-            'price' => 'required|numeric',
             'description' => 'required|string',
         ];
         $validator = Validator::make($input,$dataValidator);
@@ -54,7 +53,6 @@ class ProductController extends Controller
         $dataCreate = [
             'category_id' => $request->category_id,
             'name' => $request->name,
-            'price' => $request->price,
             'description' => $request->description,
         ];
         $product = \App\Models\Product::create($dataCreate);
@@ -101,7 +99,6 @@ class ProductController extends Controller
         $dataValidator = [
             'category_id' => 'required|numeric',
             'name' => 'required|string',
-            'price' => 'required|numeric',
             'description' => 'required|string',
         ];
         $validator = Validator::make($input,$dataValidator);
@@ -112,7 +109,6 @@ class ProductController extends Controller
         $dataUpdate = [
             'category_id' => $request->category_id,
             'name' => $request->name,
-            'price' => $request->price,
             'description' => $request->description,
         ];
         $product->update($dataUpdate);

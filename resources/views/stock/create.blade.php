@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-        <a href="{{ route('product.list', $outlet->id) }}">
+        <a href="{{ route('stock.list', $outlet->id) }}">
             <button type="button" class="btn btn-light">
                 Kembali
             </button>
@@ -35,36 +35,27 @@
         @endif
         <div class="card-body">
             <div class="basic-form">
-                <form action="{{ route('product.store', $outlet->id) }}" method="post">
+                <form action="{{ route('stock.store', $outlet->id) }}" method="post">
                     @csrf
                     <input type="number" name="outlet_id" value="{{ $outlet->id }}" hidden>
                     <div class="form-group">
-                        <label>Kategori Produk (Pilih satu):</label>
-                        <select class="form-control" id="sel1" name="category_id">
-                            @forelse($category as $data)
+                        <label>Nama Produk (Pilih satu):</label>
+                        <select class="form-control" id="sel1" name="product_id">
+                            @forelse($product as $data)
                             <option value="{{ $data->id }}">{{ $data->name }}</option>
                             @empty
                             @endforelse
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Nama Produk</label>
-                        <input type="text" class="form-control input-default " name="name"
-                            placeholder="Tulis nama produk..." required>
-                    </div>
-                    <div class="form-group">
                         <label>Stok Produk</label>
-                        <input type="number" class="form-control input-default " name="stock"
+                        <input type="number" class="form-control input-default " name="amount"
                             placeholder="Tulis stok produk..." required>
                     </div>
                     <div class="form-group">
-                        <label>Harga Produk</label>
+                        <label>Harga Produk (Rp)</label>
                         <input type="number" class="form-control input-default " name="price"
                             placeholder="Tulis harga produk..." required>
-                    </div>
-                    <div class="form-group">
-                        <label>Deskripsi Produk</label>
-                        <textarea class="form-control" rows="5" name="description" placeholder="Tulis deskripsi produk..." required></textarea>
                     </div><br>
                     <button type="submit" class="btn btn-block btn-primary">Tambah Data</button>
                 </form>

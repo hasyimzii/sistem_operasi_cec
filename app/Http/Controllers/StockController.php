@@ -27,8 +27,9 @@ class StockController extends Controller
      */
     public function list($id)
     {
-        $stock = \App\Models\Stock::where('outlet_id', $id)->get();
-        return view('product.list',compact('product'));
+        $outlet = \App\Models\Outlet::findOrFail($id);
+        $stock = \App\Models\Stock::where("outlet_id", $outlet->id)->get();
+        return view('stock.list',compact('outlet','stock'));
     }
 
     /**
@@ -40,8 +41,8 @@ class StockController extends Controller
     public function create($id)
     {
         $outlet = \App\Models\Outlet::findOrFail($id);
-        $category = \App\Models\Category::all();
-        return view('product.create',compact('outlet','category'));
+        $product = \App\Models\Product::all();
+        return view('stock.create',compact('outlet','product'));
     }
 
     /**
@@ -59,11 +60,9 @@ class StockController extends Controller
 
         $dataValidator = [
             'outlet_id' => 'required|numeric',
-            'category_id' => 'required|numeric',
-            'name' => 'required|string',
-            'stock' => 'required|numeric',
+            'product_id' => 'required|numeric',
+            'amount' => 'required|numeric',
             'price' => 'required|numeric',
-            'description' => 'required|string',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
@@ -72,23 +71,23 @@ class StockController extends Controller
 
         $dataCreate = [
             'outlet_id' => $request->outlet_id,
-            'category_id' => $request->category_id,
-            'name' => $request->name,
-            'stock' => $request->stock,
+            'product_id' => $request->product_id,
+            'amount' => $request->amount,
             'price' => $request->price,
-            'description' => $request->description,
+            'active' => 1,
         ];
 
-        if ($userRole == 'karyawan') {
+        if ($userRole == 'employee') {
+            $product = \App\Models\Product::findOrFail($request->product_id);
             $dataHistory = [
-                'user_id' => $user->id(),
-                'description' => 'Menambah data produk '. $request->name . 
-                                ' stok: '. $request->stock .
+                'user_id' => $user->id,
+                'description' => 'Menambah data stok '. $product->name .
+                                ' stok: '. $request->amount .
                                 ' harga: '. $request->price,
             ];
             $history = \App\Models\History::create($dataHistory);
         }
-        $product = \App\Models\Product::create($dataCreate);
+        $stock = \App\Models\Stock::create($dataCreate);
         return back()->with('success', 'Berhasil menambahkan data stok');
     }
 
@@ -100,8 +99,8 @@ class StockController extends Controller
      */
     public function show($id)
     {
-        $product = \App\Models\Product::findOrFail($id);
-        return view('product.show',compact('product'));
+        $stock = \App\Models\Stock::findOrFail($id);
+        return view('stock.show',compact('stock'));
     }
 
     /**
@@ -112,9 +111,8 @@ class StockController extends Controller
      */
     public function edit($id)
     {
-        $product = \App\Models\Product::findOrFail($id);
-        $outlet = $product->outlet();
-        return view('product.edit',compact('product','outlet'));
+        $stock = \App\Models\Stock::findOrFail($id);
+        return view('stock.edit',compact('stock'));
     }
 
     /**
@@ -128,16 +126,15 @@ class StockController extends Controller
     {
         $user = auth()->user();
         $userRole = $user->role->name;
-        $product = \App\Models\Product::findOrFail($id);
+        $stock = \App\Models\Stock::findOrFail($id);
         $input = $request->all();
 
         $dataValidator = [
             'outlet_id' => 'required|numeric',
-            'category_id' => 'required|numeric',
-            'name' => 'required|string',
-            'stock' => 'required|numeric',
+            'product_id' => 'required|numeric',
+            'amount' => 'required|numeric',
             'price' => 'required|numeric',
-            'description' => 'required|string',
+            'active' => 'required|numeric',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
@@ -146,19 +143,19 @@ class StockController extends Controller
 
         $dataUpdate = [
             'outlet_id' => $request->outlet_id,
-            'category_id' => $request->category_id,
-            'name' => $request->name,
-            'stock' => $request->stock,
+            'product_id' => $request->product_id,
+            'amount' => $request->amount,
             'price' => $request->price,
-            'description' => $request->description,
+            'active' => $request->active,
         ];
-        $user->update($dataUpdate);
+        $stock->update($dataUpdate);
 
-        if ($userRole == 'karyawan') {
+        if ($userRole == 'employee') {
+            $product = \App\Models\Product::findOrFail($request->product_id);
             $dataHistory = [
                 'user_id' => $user->id(),
-                'description' => 'Mengubah data produk '. $request->name . 
-                                ' stok: '. $request->stock .
+                'description' => 'Mengubah data stok '. $product->name .
+                                ' stok: '. $request->amount .
                                 ' harga: '. $request->price,
             ];
             $history = \App\Models\History::create($dataHistory);

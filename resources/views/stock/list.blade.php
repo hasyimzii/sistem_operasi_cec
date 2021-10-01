@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-        <a href="{{ route('product.create', $outlet->id) }}">
+        <a href="{{ route('stock.create', $outlet->id) }}">
             <button type="button" class="btn btn-primary">
                 Tambah Data
             </button>
@@ -32,23 +32,31 @@
                                 <th>Stok</th>
                                 <th>Harga</th>
                                 <th>Deskripsi</th>
-                                <th>Edit</th>
+                                <th>Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($product as $data)
+                            @forelse($stock as $data)
                                 <tr>
-                                    <td>{{ $data->name }}</td>
-                                    <td>{{ $data->category->name }}</td>
-                                    <td>{{ $data->stock }}</td>
-                                    <td>{{ $data->price }}</td>
-                                    <td>{{ $data->description }}</td>
+                                    <td>{{ $data->product->name }}</td>
+                                    <td>{{ $data->product->category->name }}</td>
+                                    <td>{{ ($data->amount > 0) ? $data->amount : 'Habis' }}
+                                    </td>
+                                    <td>Rp {{ $data->price }}</td>
+                                    <td>{{ $data->product->description }}</td>
                                     <td>
-                                        <a href="{{ route('product.edit', $data->id) }}">
-                                            <button type="button" class="btn btn-warning">
-                                                <i class="fa fa-pencil"></i>
-                                            </button>
-                                        </a>
+                                        <div class="btn-group">
+                                            <a href="{{ route('stock.show', $data->id) }}">
+                                                <button type="button" class="btn btn-info">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                            </a>
+                                            <a href="{{ route('stock.edit', $data->id) }}">
+                                                <button type="button" class="btn btn-warning">
+                                                    <i class="fa fa-pencil"></i>
+                                                </button>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty

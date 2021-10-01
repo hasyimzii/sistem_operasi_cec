@@ -35,9 +35,8 @@
         @endif
         <div class="card-body">
             <div class="basic-form">
-                <form action="{{ route('outlet.update', $outlet->id) }}">
+                <form action="{{ route('outlet.update', $outlet->id) }}" method="post">
                     @csrf
-                    @method('patch')
                     <div class="form-group">
                         <label>Nama Outlet</label>
                         <input type="text" class="form-control input-default " name="name" value="{{ $outlet->name }}"

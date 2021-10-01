@@ -31,7 +31,7 @@
                                 <th>Kategori</th>
                                 <th>Harga</th>
                                 <th>Deskripsi</th>
-                                <th>Edit</th>
+                                <th>Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,14 +39,21 @@
                                 <tr>
                                     <td>{{ $data->name }}</td>
                                     <td>{{ $data->category->name }}</td>
-                                    <td>{{ $data->price }}</td>
+                                    <td>Rp {{ $data->price }}</td>
                                     <td>{{ $data->description }}</td>
                                     <td>
-                                        <a href="{{ route('product.edit', $data->id) }}">
-                                            <button type="button" class="btn btn-warning">
-                                                <i class="fa fa-pencil"></i>
-                                            </button>
-                                        </a>
+                                        <div class="btn-group">
+                                            <a href="{{ route('product.show', $data->id) }}">
+                                                <button type="button" class="btn btn-info">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                            </a>
+                                            <a href="{{ route('product.edit', $data->id) }}">
+                                                <button type="button" class="btn btn-warning">
+                                                    <i class="fa fa-pencil"></i>
+                                                </button>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty

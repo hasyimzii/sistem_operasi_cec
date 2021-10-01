@@ -30,7 +30,7 @@
                                 <th>Nama Outlet</th>
                                 <th>No. Telpon</th>
                                 <th>Alamat</th>
-                                <th>Edit</th>
+                                <th>Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,11 +40,18 @@
                                     <td>{{ $data->phone }}</td>
                                     <td>{{ $data->address }}</td>
                                     <td>
-                                        <a href="{{ route('outlet.edit', $data->id) }}">
-                                            <button type="button" class="btn btn-warning">
-                                                <i class="fa fa-pencil"></i>
-                                            </button>
-                                        </a>
+                                        <div class="btn-group">
+                                            <a href="{{ route('outlet.show', $data->id) }}">
+                                                <button type="button" class="btn btn-info">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                            </a>
+                                            <a href="{{ route('outlet.edit', $data->id) }}">
+                                                <button type="button" class="btn btn-warning">
+                                                    <i class="fa fa-pencil"></i>
+                                                </button>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty

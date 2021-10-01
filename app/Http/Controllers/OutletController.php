@@ -15,7 +15,7 @@ class OutletController extends Controller
      */
     public function index()
     {
-        $outlet = \App\Models\Outlet::all();
+        $outlet = \App\Models\Outlet::where('id', '!=', 1)->get();
         return view('outlet.index',compact('outlet'));
     }
 
@@ -67,7 +67,7 @@ class OutletController extends Controller
     public function show($id)
     {
         $outlet = \App\Models\Outlet::findOrFail($id);
-        return view('outlet.show',compact('user'));
+        return view('outlet.show',compact('outlet'));
     }
 
     /**

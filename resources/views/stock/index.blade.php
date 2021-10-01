@@ -24,19 +24,17 @@
                         <thead>
                             <tr>
                                 <th>Nama Outlet</th>
-                                <th>No. Telpon</th>
                                 <th>Alamat</th>
-                                <th>Lihat</th>
+                                <th>Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($outlet as $data)
                                 <tr>
                                     <td>{{ $data->name }}</td>
-                                    <td>{{ $data->phone }}</td>
                                     <td>{{ $data->address }}</td>
                                     <td>
-                                        <a href="{{ route('product.list', $data->id) }}">
+                                        <a href="{{ route('stock.list', $data->id) }}">
                                             <button type="button" class="btn btn-info">
                                                 <i class="fa fa-eye"></i>
                                             </button>

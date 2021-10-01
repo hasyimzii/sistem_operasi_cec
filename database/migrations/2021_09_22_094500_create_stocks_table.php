@@ -18,6 +18,8 @@ class CreateStocksTable extends Migration
             $table->foreignId('outlet_id');
             $table->foreignId('product_id');
             $table->integer('amount');
+            $table->integer('price');
+            $table->boolean('active')->default(0);
             $table->timestamps();
             
             $table->foreign('outlet_id')->references('id')->on('outlets')->onUpdate('cascade');

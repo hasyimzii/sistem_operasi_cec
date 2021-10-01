@@ -64,12 +64,12 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('stock.index') }}" class="has-arrow" aria-expanded="false"><i class="icon icon-app-store"></i>
+                <a href="{{ route('stock.list', $user->outlet->id) }}" class="has-arrow" aria-expanded="false"><i class="icon icon-app-store"></i>
                     <span class="nav-text">Stok Produk</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('outlet.index') }}" class="has-arrow" aria-expanded="false"><i class="icon icon-home-minimal"></i>
+                <a href="{{ route('outlet.show', $user->outlet->id) }}" class="has-arrow" aria-expanded="false"><i class="icon icon-home-minimal"></i>
                     <span class="nav-text">Outlet</span>
                 </a>
             </li>

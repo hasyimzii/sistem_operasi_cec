@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $outlet = \App\Models\Outlet::all();
+        $outlet = \App\Models\Outlet::where('id', '!=', 1)->get();
         return view('user.create',compact('outlet'));
     }
 
@@ -106,7 +106,7 @@ class UserController extends Controller
             'outlet_id' => 'required|numeric',
             'name' => 'required|string',
             'email' => 'required|string',
-            'phone' => 'required|string|max:10',
+            'phone' => 'required|string|max:15',
             'active' => 'required|numeric',
         ];
         $validator = Validator::make($input,$dataValidator);

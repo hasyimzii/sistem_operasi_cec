@@ -52,11 +52,6 @@
                             placeholder="Tulis nama produk..." required>
                     </div>
                     <div class="form-group">
-                        <label>Harga Produk</label>
-                        <input type="number" class="form-control input-default " name="price"
-                            placeholder="Tulis harga produk..." required>
-                    </div>
-                    <div class="form-group">
                         <label>Deskripsi Produk</label>
                         <textarea class="form-control" rows="5" name="description" placeholder="Tulis deskripsi produk..." required></textarea>
                     </div><br>
