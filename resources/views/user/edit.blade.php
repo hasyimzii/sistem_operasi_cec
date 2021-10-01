@@ -38,6 +38,7 @@
                 <form action="{{ route('user.update', $user->id) }}" method="post">
                     @csrf
                     <input type="number" name="outlet_id" value="{{ $user->outlet->id }}" hidden>
+                    @if(auth()->user()->role->name == 'employee')
                     <div class="form-group">
                         <label>Outlet Karyawan (Pilih satu):</label>
                         <select class="form-control" id="sel1" name="outlet_id">
@@ -49,21 +50,22 @@
                             @endforelse
                         </select>
                     </div>
+                    @endif
                     <div class="form-group">
-                        <label>Nama Karyawan</label>
+                        <label>Nama Lengkap</label>
                         <input type="text" class="form-control input-default " name="name" value="{{ $user->name }}"
-                            placeholder="Tulis nama karyawan..." required>
+                            placeholder="Tulis nama lengkap..." required>
                     </div>
                     <div class="form-group">
-                        <label>Email Karyawan</label>
+                        <label>Email</label>
                         <input type="email" class="form-control input-default " name="email"
-                            value="{{ $user->email }}" placeholder="Tulis email karyawan... (e.g. asd@mail.com)"
+                            value="{{ $user->email }}" placeholder="Tulis email... (e.g. asd@mail.com)"
                             required>
                     </div>
                     <div class="form-group">
-                        <label>No. Telpon Karwayan</label>
+                        <label>No. Telpon</label>
                         <input type="text" class="form-control input-default " name="phone" value="{{ $user->phone }}"
-                            placeholder="Tulis no. telpon karyawan... (e.g. 088812459583)" required>
+                            placeholder="Tulis no. telpon... (e.g. 088812459583)" required>
                     </div>
                     @if(auth()->user()->role->name == 'admin')
                     <input type="number" name="active" value="{{ $user->active }}" hidden>
