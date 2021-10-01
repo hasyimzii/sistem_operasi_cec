@@ -11,18 +11,18 @@ class Product extends Model
     
     protected $guarded = ['id'];
 
-    public function outlet()
-    {
-        return $this->belongsTo(Outlet::class);
-    }
-
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function sale()
+    public function ingredient()
     {
-        return $this->hasMany(Sale::class);
+        return $this->hasMany(Ingredient::class);
+    }
+
+    public function stock()
+    {
+        return $this->hasMany(Stock::class);
     }
 }

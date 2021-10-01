@@ -15,15 +15,10 @@ class Outlet extends Model
     {
         return $this->hasMany(User::class);
     }
-
-    public function history()
-    {
-        return $this->hasMany(History::class);
-    }
     
-    public function product()
+    public function stock()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Stock::class);
     }
 
     public function expense()
