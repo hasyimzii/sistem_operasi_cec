@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Karyawan')
+@section('title', 'Edit Akun')
 @section('content')
 <div class="row page-titles mx-0" style="background: #343957;">
     <div class="col-sm-6 mt-1 p-md-0">
         <div class="welcome-text">
-            <h4 class="text-white">Edit Karyawan</h4>
+            <h4 class="text-white">Edit Akun</h4>
         </div>
     </div>
     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
@@ -65,17 +65,22 @@
                         <input type="text" class="form-control input-default " name="phone" value="{{ $user->phone }}"
                             placeholder="Tulis no. telpon karyawan... (e.g. 088812459583)" required>
                     </div>
+                    @if(auth()->user()->role->name == 'admin')
+                    <input type="number" name="active" value="{{ $user->active }}" hidden>
+                    @else
                     <div class="form-group">
-                        <label>Status Karyawan (Pilih satu):</label>
-                        <select class="form-control" id="sel1" name="active">
-                            <option value="1"
-                                {{ ($user->active == 1) ? 'selected' :'' }}>
-                                Aktif</option>
-                            <option value="0"
-                                {{ ($user->active == 0) ? 'selected' :'' }}>
-                                Tidak Aktif</option>
-                        </select>
-                    </div><br>
+                            <label>Status Akun (Pilih satu):</label>
+                            <select class="form-control" id="sel1" name="active">
+                                <option value="1"
+                                    {{ ($user->active == 1) ? 'selected' :'' }}>
+                                    Aktif</option>
+                                <option value="0"
+                                    {{ ($user->active == 0) ? 'selected' :'' }}>
+                                    Tidak Aktif</option>
+                            </select>
+                        </div>
+                    @endif
+                    <br>
                     <button type="submit" class="btn btn-block btn-primary">Edit Data</button>
                 </form>
             </div>

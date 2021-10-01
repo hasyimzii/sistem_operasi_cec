@@ -18,8 +18,8 @@
             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                 <i class="icon icon-app-store"></i><span class="nav-text">Produk</span></a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('product.index') }}">Data Produk</a></li>
                     <li><a href="{{ route('stock.index') }}">Stok Produk</a></li>
+                    <li><a href="{{ route('product.index') }}">Data Produk</a></li>
                     <li><a href="{{ route('category.index') }}">Kategori</a></li>
                 </ul>
             </li>
