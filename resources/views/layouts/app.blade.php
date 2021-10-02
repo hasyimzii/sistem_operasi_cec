@@ -9,12 +9,15 @@
     <title>@yield('title')</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/logo.png') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/owl-carousel/css/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/owl-carousel/css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('assets/vendor/owl-carousel/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('assets/vendor/owl-carousel/css/owl.theme.default.min.css') }}">
     <link href="{{ asset('assets/vendor/jqvmap/css/jqvmap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     <!-- Datatable -->
-    <link href="{{ asset('assets/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/datatables/css/jquery.dataTables.min.css') }}"
+        rel="stylesheet">
 
 </head>
 
@@ -71,14 +74,22 @@
                                     <i class="icon icon-settings-gear-64"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
+                                    @php
+                                        $user = auth()->user()
+                                    @endphp
+                                    <a href="{{ route('user.passEdit', $user->id) }}"
+                                        class="dropdown-item">
+                                        <i class="icon-key"></i>
+                                        <span class="ml-2">Ganti Password</span>
+                                    </a>
                                     <a href="javascript:void()" class="dropdown-item"
                                         onclick="event.preventDefault(); document.getElementById('form-logout').submit();">
                                         <i class="icon-logout"></i>
-                                        <span class="ml-2">Logout </span>
+                                        <span class="ml-2">Logout</span>
                                     </a>
-                                    <form id="form-logout" action="{{ route('logout') }}" method="POST"
-                                        style="display: none;">
-                                        {{ csrf_field() }}
+                                    <form id="form-logout" action="{{ route('logout') }}"
+                                        method="POST" style="display: none;">
+                                        @csrf
                                     </form>
                                 </div>
                             </li>
@@ -146,7 +157,8 @@
 
 
     <!-- Datatable -->
-    <script src="{{ asset('assets/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/datatables/js/jquery.dataTables.min.js') }}">
+    </script>
     <script src="{{ asset('assets/js/plugins-init/datatables.init.js') }}"></script>
 </body>
 

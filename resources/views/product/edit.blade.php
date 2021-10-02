@@ -55,7 +55,7 @@
                     </div>
                     <div class="form-group">
                         <label>Deskripsi Produk</label>
-                        <textarea class="form-control" rows="5" name="description"
+                        <textarea class="form-control" name="description"
                             placeholder="Tulis deskripsi produk..." required>{{ $product->description }}</textarea>
                     </div><br>
                     <button type="submit" class="btn btn-block btn-primary">Edit Data</button>

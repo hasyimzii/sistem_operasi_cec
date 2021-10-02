@@ -49,7 +49,7 @@
                     </div>
                     <div class="form-group">
                         <label>Alamat Outlet</label>
-                        <textarea class="form-control" rows="4" name="address" placeholder="Tulis alamat outlet..." required>{{ $outlet->address }}</textarea>
+                        <textarea class="form-control" name="address" placeholder="Tulis alamat outlet..." required>{{ $outlet->address }}</textarea>
                     </div><br>
                     <button type="submit" class="btn btn-block btn-primary">Edit Data</button>
                 </form>

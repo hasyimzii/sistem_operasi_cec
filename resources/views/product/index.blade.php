@@ -29,7 +29,6 @@
                             <tr>
                                 <th>Nama Produk</th>
                                 <th>Kategori</th>
-                                <th>Harga</th>
                                 <th>Deskripsi</th>
                                 <th>Opsi</th>
                             </tr>
@@ -39,7 +38,6 @@
                                 <tr>
                                     <td>{{ $data->name }}</td>
                                     <td>{{ $data->category->name }}</td>
-                                    <td>Rp {{ $data->price }}</td>
                                     <td>{{ $data->description }}</td>
                                     <td>
                                         <div class="btn-group">

@@ -49,7 +49,7 @@
                     </div>
                     <div class="form-group">
                         <label>Alamat Outlet</label>
-                        <textarea class="form-control" rows="4" name="address" placeholder="Tulis alamat outlet..." required></textarea>
+                        <textarea class="form-control" name="address" placeholder="Tulis alamat outlet..." required></textarea>
                     </div><br>
                     <button type="submit" class="btn btn-block btn-primary">Tambah Data</button>
                 </form>

@@ -23,12 +23,20 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/riwayat', '\App\Http\Controllers\HomeController@history')->name('history');
     // User
     Route::group(['as' => 'user.','prefix' => 'akun'], function () {
-        Route::get('/', '\App\Http\Controllers\UserController@index')->name('index')->middleware('admin');
-        Route::get('/create', '\App\Http\Controllers\UserController@create')->name('create')->middleware('admin');
-        Route::post('/create', '\App\Http\Controllers\UserController@store')->name('store')->middleware('admin');
         Route::get('{id}/show', '\App\Http\Controllers\UserController@show')->name('show');
         Route::get('{id}/edit', '\App\Http\Controllers\UserController@edit')->name('edit');
         Route::post('{id}/edit', '\App\Http\Controllers\UserController@update')->name('update');
+        Route::get('{id}/ganti-password', '\App\Http\Controllers\UserController@passEdit')->name('passEdit');
+        Route::post('{id}/ganti-password', '\App\Http\Controllers\UserController@passUpdate')->name('passUpdate');
+    });
+    // Employee
+    Route::group(['as' => 'employee.','prefix' => 'karyawan'], function () {
+        Route::get('/', '\App\Http\Controllers\EmployeeController@index')->name('index')->middleware('admin');
+        Route::get('/create', '\App\Http\Controllers\EmployeeController@create')->name('create')->middleware('admin');
+        Route::post('/create', '\App\Http\Controllers\EmployeeController@store')->name('store')->middleware('admin');
+        Route::get('{id}/show', '\App\Http\Controllers\EmployeeController@show')->name('show')->middleware('admin');
+        Route::get('{id}/edit', '\App\Http\Controllers\EmployeeController@edit')->name('edit')->middleware('admin');
+        Route::post('{id}/edit', '\App\Http\Controllers\EmployeeController@update')->name('update')->middleware('admin');
     });
     // Outlet
     Route::group(['as' => 'outlet.','prefix' => 'outlet'], function () {

@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-        <a href="{{ route('user.index') }}">
+        <a href="{{ route('employee.index') }}">
             <button type="button" class="btn btn-light">
                 Kembali
             </button>
@@ -35,7 +35,7 @@
         @endif
         <div class="card-body">
             <div class="basic-form">
-                <form action="{{ route('user.store') }}" method="post">
+                <form action="{{ route('employee.store') }}" method="post">
                     @csrf
                     <div class="form-group">
                         <label>Outlet Karyawan (Pilih satu):</label>

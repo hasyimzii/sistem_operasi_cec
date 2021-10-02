@@ -36,7 +36,7 @@
                 </ul>
             </li>
             <li>
-                <a href="{{ route('user.index') }}" class="has-arrow" class="has-arrow" aria-expanded="false"><i class="icon icon-users-mm"></i>
+                <a href="{{ route('employee.index') }}" class="has-arrow" class="has-arrow" aria-expanded="false"><i class="icon icon-users-mm"></i>
                     <span class="nav-text">Karyawan</span>
                 </a>
             </li>

@@ -5,18 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class EmployeeController extends Controller
 {
-    /**
+     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $user = \App\Models\User::where('role_id',2)->get();
+        return view('employee.index',compact('user'));
     }
 
     /**
@@ -26,7 +26,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $outlet = \App\Models\Outlet::where('id', '!=', 1)->get();
+        return view('employee.create',compact('outlet'));
     }
 
     /**
@@ -37,7 +38,31 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+
+        $dataValidator = [
+            'outlet_id' => 'required|numeric',
+            'name' => 'required|string',
+            'email' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+            'phone' => 'required|string|max:15',
+        ];
+        $validator = Validator::make($input,$dataValidator);
+        if($validator->fails()){
+            return back()->with('error', $validator->errors()->all());
+        }
+
+        $dataCreate = [
+            'role_id' => 2,
+            'outlet_id' => $request->outlet_id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'phone' => $request->phone,
+            'active' => 1,
+        ];
+        $user = \App\Models\User::create($dataCreate);
+        return back()->with('success', 'Berhasil menambahkan data karyawan');
     }
 
     /**
@@ -49,7 +74,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = \App\Models\User::findOrFail($id);
-        return view('user.show',compact('user'));
+        return view('employee.show',compact('user'));
     }
 
     /**
@@ -62,7 +87,7 @@ class UserController extends Controller
     {
         $user = \App\Models\User::findOrFail($id);
         $outlet = \App\Models\Outlet::all();
-        return view('user.edit',compact('user', 'outlet'));
+        return view('employee.edit',compact('user', 'outlet'));
     }
 
     /**
@@ -78,9 +103,11 @@ class UserController extends Controller
         $input = $request->all();
 
         $dataValidator = [
+            'outlet_id' => 'required|numeric',
             'name' => 'required|string',
             'email' => 'required|string',
             'phone' => 'required|string|max:15',
+            'active' => 'required|numeric',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
@@ -88,59 +115,14 @@ class UserController extends Controller
         }
 
         $dataUpdate = [
+            'outlet_id' => $request->outlet_id,
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'active' => $request->active,
         ];
         $user->update($dataUpdate);
-        return back()->with('success', 'Berhasil memperbarui data akun');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function passEdit($id)
-    {
-        $user = \App\Models\User::findOrFail($id);
-        return view('user.passEdit',compact('user'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function passUpdate(Request $request, $id)
-    {
-        $user = \App\Models\User::findOrFail($id);
-        $input = $request->all();
-
-        $dataValidator = [
-            'old_password' => 'required|string|min:8',
-            'password' => 'required|string|min:8|confirmed',
-        ];
-        $validator = Validator::make($input,$dataValidator);
-        if($validator->fails()){
-            return back()->with('error', $validator->errors()->all());
-        }
-
-        // check old password
-        if(Hash::check($request->old_password, $user->password)) {
-            $dataUpdate = [
-                'password' => bcrypt($request->password),
-            ];
-            $user->update($dataUpdate);
-            return back()->with('success', 'Berhasil memperbarui password');
-        }
-        else {
-            return back()->with('error', ['Password lama kamu salah!']);
-        }
-
+        return back()->with('success', 'Berhasil memperbarui data karyawan');
     }
 
     /**

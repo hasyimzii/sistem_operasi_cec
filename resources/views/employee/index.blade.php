@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-        <a href="{{ route('user.create') }}">
+        <a href="{{ route('employee.create') }}">
             <button type="button" class="btn btn-primary">
                 Tambah Data
             </button>
@@ -46,12 +46,12 @@
                                     </td>
                                     <td>
                                         <div class="btn-group">
-                                            <a href="{{ route('user.show', $data->id) }}">
+                                            <a href="{{ route('employee.show', $data->id) }}">
                                                 <button type="button" class="btn btn-info">
                                                     <i class="fa fa-eye"></i>
                                                 </button>
                                             </a>
-                                            <a href="{{ route('user.edit', $data->id) }}">
+                                            <a href="{{ route('employee.edit', $data->id) }}">
                                                 <button type="button" class="btn btn-warning">
                                                     <i class="fa fa-pencil"></i>
                                                 </button>

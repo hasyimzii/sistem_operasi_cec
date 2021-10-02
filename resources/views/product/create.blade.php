@@ -53,7 +53,7 @@
                     </div>
                     <div class="form-group">
                         <label>Deskripsi Produk</label>
-                        <textarea class="form-control" rows="5" name="description" placeholder="Tulis deskripsi produk..." required></textarea>
+                        <textarea class="form-control" name="description" placeholder="Tulis deskripsi produk..." required></textarea>
                     </div><br>
                     <button type="submit" class="btn btn-block btn-primary">Tambah Data</button>
                 </form>

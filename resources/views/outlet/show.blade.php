@@ -40,7 +40,7 @@
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Alamat Outlet</label>
                         <div class="col-sm-9">
-                            <textarea readonly class="form-control-plaintext" rows="4" style="resize: none;">{{ $outlet->address }}</textarea>
+                            <textarea readonly class="form-control-plaintext" style="resize: none;">{{ $outlet->address }}</textarea>
                         </div>
                     </div>
                     <div class="form-group row">
