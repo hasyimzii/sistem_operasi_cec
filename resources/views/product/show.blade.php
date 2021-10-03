@@ -36,12 +36,6 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Harga Produk</label>
-                        <div class="col-sm-9">
-                            <input type="text" readonly class="form-control-plaintext" value="Rp {{ $product->price }}">
-                        </div>
-                    </div>
-                    <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Deskripsi Produk</label>
                         <div class="col-sm-9">
                             <textarea readonly class="form-control-plaintext" style="resize: none;">{{ $product->description }}</textarea>
