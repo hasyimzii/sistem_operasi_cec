@@ -43,7 +43,7 @@ class EmployeeController extends Controller
         $dataValidator = [
             'outlet_id' => 'required|numeric',
             'name' => 'required|string',
-            'email' => 'required|string',
+            'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'phone' => 'required|string|max:15',
         ];
@@ -105,7 +105,7 @@ class EmployeeController extends Controller
         $dataValidator = [
             'outlet_id' => 'required|numeric',
             'name' => 'required|string',
-            'email' => 'required|string',
+            'email' => 'required|string|email|unique:users,email,'.$user->id,
             'phone' => 'required|string|max:15',
             'active' => 'required|numeric',
         ];

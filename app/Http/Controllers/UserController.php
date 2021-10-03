@@ -79,7 +79,7 @@ class UserController extends Controller
 
         $dataValidator = [
             'name' => 'required|string',
-            'email' => 'required|string',
+            'email' => 'required|string|email|unique:users,email,'.$user->id,
             'phone' => 'required|string|max:15',
         ];
         $validator = Validator::make($input,$dataValidator);

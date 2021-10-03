@@ -8,15 +8,13 @@
             <h4 class="text-white">Detail Akun</h4>
         </div>
     </div>
-    @if($user->role->name == 'admin')
-        <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-            <a href="{{ route('user.edit',$user->id) }}">
-                <button type="button" class="btn btn-warning text-white">
-                    Edit Akun
-                </button>
-            </a>
-        </div>
-    @endif
+    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+        <a href="{{ route('user.edit',$user->id) }}">
+            <button type="button" class="btn btn-warning text-white">
+                Edit Akun
+            </button>
+        </a>
+    </div>
 </div>
 <!-- row -->
 
