@@ -15,7 +15,7 @@ class StockController extends Controller
      */
     public function index()
     {
-        $outlet = \App\Models\Outlet::all();
+        $outlet = \App\Models\Outlet::where('id', '!=', 1)->get();
         return view('stock.index',compact('outlet'));
     }
 
@@ -54,6 +54,7 @@ class StockController extends Controller
      */
     public function store(Request $request, $id)
     {
+        // TODO 2: bug store
         $user = auth()->user();
         $userRole = $user->role->name;
         $input = $request->all();
@@ -130,10 +131,8 @@ class StockController extends Controller
         $input = $request->all();
 
         $dataValidator = [
-            'outlet_id' => 'required|numeric',
             'product_id' => 'required|numeric',
             'amount' => 'required|numeric',
-            'price' => 'required|numeric',
             'active' => 'required|numeric',
         ];
         $validator = Validator::make($input,$dataValidator);
@@ -142,10 +141,8 @@ class StockController extends Controller
         }
 
         $dataUpdate = [
-            'outlet_id' => $request->outlet_id,
             'product_id' => $request->product_id,
             'amount' => $request->amount,
-            'price' => $request->price,
             'active' => $request->active,
         ];
         $stock->update($dataUpdate);
@@ -155,8 +152,7 @@ class StockController extends Controller
             $dataHistory = [
                 'user_id' => $user->id(),
                 'description' => 'Mengubah data stok '. $product->name .
-                                ' stok: '. $request->amount .
-                                ' harga: '. $request->price,
+                                ' stok: '. $request->amount,
             ];
             $history = \App\Models\History::create($dataHistory);
         }

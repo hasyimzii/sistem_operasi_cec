@@ -38,24 +38,19 @@
                 <form action="{{ route('stock.update', $stock->id) }}" method="post">
                     @csrf
                     <input type="number" name="product_id" value="{{ $stock->product->id }}" hidden>
-                    <div class="form-row">
-                        <div class="col-sm-5">
-                            <label>Nama Produk</label>
-                            <input type="text" class="form-control" value="{{ $stock->product->name }}"
-                                placeholder="Tulis nama kategori..." readonly>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-sm-5">
-                            <label>Stok Produk</label>
-                            <input type="number" class="form-control" name="name" value="{{ $stock->amount }}"
-                                placeholder="Tulis stok produk..."  required>
-                        </div>
+                    <div class="form-group">
+                        <label>Nama Produk</label>
+                        <input type="text" class="form-control" value="{{ $stock->product->name }}"
+                            placeholder="Tulis nama kategori..." readonly>
                     </div>
                     <div class="form-group">
                         <label>Harga Produk (Rp)</label>
-                        <input type="number" class="form-control input-default " name="price"
-                            value="{{ $stock->price }}" placeholder="Tulis harga produk..." required>
+                        <input type="text" readonly class="form-control" style="background: #c4c4c4;" value="Rp {{ $stock->price }}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Stok Produk</label>
+                        <input type="number" class="form-control" name="name" value="{{ $stock->amount }}"
+                            placeholder="Tulis stok produk..." required>
                     </div>
                     <div class="form-group">
                         <label>Status Produk (Pilih satu):</label>
@@ -68,7 +63,7 @@
                                 Tidak Aktif</option>
                         </select>
                     </div><br>
-                    <button type="submit" class="btn btn-primary col-sm-5">Edit Data</button>
+                    <button type="submit" class="btn btn-block btn-primary">Edit Data</button>
                 </form>
             </div>
         </div>

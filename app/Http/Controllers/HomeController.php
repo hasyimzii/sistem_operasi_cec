@@ -39,9 +39,10 @@ class HomeController extends Controller
         if($userRole == 'admin') {
             $history = \App\Models\History::orderBy("created_at", "desc")->get();
         }
+        // TODO 1 : bug karyawan
         else {
             $outletId = $user->outlet->id;
-            $history = \App\Models\History::orderBy("created_at", "desc")->get();
+            $history = \App\Models\History::where('outlet_id', $outletId)->orderBy("created_at", "desc")->get();
         }
         return view('home.history',compact('history'));
     }
