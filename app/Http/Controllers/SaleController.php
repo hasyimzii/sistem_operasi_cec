@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Str;
 
-class StockController extends Controller
+class SaleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class StockController extends Controller
     public function index()
     {
         $outlet = \App\Models\Outlet::where('id', '!=', 1)->get();
-        return view('stock.index',compact('outlet'));
+        return view('sale.index',compact('outlet'));
     }
 
     /**
@@ -28,8 +28,8 @@ class StockController extends Controller
     public function list($id)
     {
         $outlet = \App\Models\Outlet::findOrFail($id);
-        $stock = \App\Models\Stock::where("outlet_id", $outlet->id)->get();
-        return view('stock.list',compact('outlet','stock'));
+        $sale = \App\Models\Sale::where('outlet_id', $outlet->id)->get();
+        return view('sale.list',compact('outlet','sale'));
     }
 
     /**
@@ -41,8 +41,8 @@ class StockController extends Controller
     public function create($id)
     {
         $outlet = \App\Models\Outlet::findOrFail($id);
-        $product = \App\Models\Product::all();
-        return view('stock.create',compact('outlet','product'));
+        $stock = \App\Models\Stock::where('active', 1)->where('amount', '!=', 0)->get();
+        return view('sale.create',compact('outlet','stock'));
     }
 
     /**
@@ -57,38 +57,50 @@ class StockController extends Controller
         $user = auth()->user();
         $userRole = $user->role->name;
         $input = $request->all();
-
+        
         $dataValidator = [
             'outlet_id' => 'required|numeric',
-            'product_id' => 'required|numeric',
+            'stock_id' => 'required|numeric',
             'amount' => 'required|numeric',
-            'price' => 'required|numeric',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
             return back()->with('error', $validator->errors()->all());
         }
 
+        // if stock not enough
+        $stock = \App\Models\Stock::findOrFail($request->stock_id);
+        if($request->amount > $stock->amount) {
+            return back()->with('error', ['Stok produk tidak cukup!']);
+        }
+
         $dataCreate = [
             'outlet_id' => $request->outlet_id,
-            'product_id' => $request->product_id,
+            'stock_id' => $request->stock_id,
             'amount' => $request->amount,
-            'price' => $request->price,
-            'active' => 1,
         ];
 
+        // employee history
         if ($userRole == 'employee') {
-            $product = \App\Models\Product::findOrFail($request->product_id);
+            // total price
+            $totalPrice = $stock->price * $request->amount;
             $dataHistory = [
                 'user_id' => $user->id,
-                'description' => 'Menambah data stok '. $product->name .
-                                ' stok: '. $request->amount .
-                                ' harga: '. $request->price,
+                'description' => 'Melakukan penjualan produk '. $stock->product->name .
+                                ' sebanyak: '. $request->amount .
+                                ' total harga: '. $totalPrice,
             ];
             $history = \App\Models\History::create($dataHistory);
         }
-        $stock = \App\Models\Stock::create($dataCreate);
-        return back()->with('success', 'Berhasil menambahkan data stok');
+
+        $sale = \App\Models\Sale::create($dataCreate);
+        
+        // decrease stock
+        $decreasedStock = $stock->amount - $request->amount;
+        $dataAmount = ['amount' => $decreasedStock];
+        $stock->update($dataAmount);
+
+        return back()->with('success', 'Berhasil menambah data penjualan');
     }
 
     /**
@@ -99,8 +111,7 @@ class StockController extends Controller
      */
     public function show($id)
     {
-        $stock = \App\Models\Stock::findOrFail($id);
-        return view('stock.show',compact('stock'));
+        //
     }
 
     /**
@@ -111,8 +122,9 @@ class StockController extends Controller
      */
     public function edit($id)
     {
-        $stock = \App\Models\Stock::findOrFail($id);
-        return view('stock.edit',compact('stock'));
+        $sale = \App\Models\Sale::findOrFail($id);
+        $stock = \App\Models\Stock::where('active', 1)->where('amount', '!=', 0)->get();
+        return view('sale.edit',compact('sale','stock'));
     }
 
     /**
@@ -126,13 +138,13 @@ class StockController extends Controller
     {
         $user = auth()->user();
         $userRole = $user->role->name;
-        $stock = \App\Models\Stock::findOrFail($id);
+        $sale = \App\Models\Sale::findOrFail($id);
         $input = $request->all();
 
         $dataValidator = [
-            'product_id' => 'required|numeric',
+            'outlet_id' => 'required|numeric',
+            'stock_id' => 'required|numeric',
             'amount' => 'required|numeric',
-            'active' => 'required|numeric',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
@@ -140,22 +152,12 @@ class StockController extends Controller
         }
 
         $dataUpdate = [
-            'product_id' => $request->product_id,
+            'outlet_id' => $request->outlet_id,
+            'stock_id' => $request->stock_id,
             'amount' => $request->amount,
-            'active' => $request->active,
         ];
-
-        if ($userRole == 'employee') {
-            $product = \App\Models\Product::findOrFail($request->product_id);
-            $dataHistory = [
-                'user_id' => $user->id(),
-                'description' => 'Mengubah data stok '. $product->name .
-                                ' stok: '. $request->amount,
-            ];
-            $history = \App\Models\History::create($dataHistory);
-        }
-        $stock->update($dataUpdate);
-        return back()->with('success', 'Berhasil memperbarui data stok');
+        $sale->update($dataUpdate);
+        return back()->with('success', 'Berhasil memperbarui data penjualan');
     }
 
     /**

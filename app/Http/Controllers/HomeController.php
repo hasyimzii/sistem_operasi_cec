@@ -14,17 +14,10 @@ class HomeController extends Controller
     public function index()
     {
         $user = auth()->user();
-        if($user->hasRole('admin')) {
-            return view('home.admin');
-            // return route('user.show');
+        if($user->active = 1) {
+            return redirect()->route('user.show', $user->id);
         }
-        else if($user->hasRole('employee')) {
-            return view('home.employee');
-            // return route('user.show');
-        }
-        else {
-            return redirect('/login');
-        }
+        return redirect('/login');
     }
 
     /**
@@ -39,7 +32,6 @@ class HomeController extends Controller
         if($userRole == 'admin') {
             $history = \App\Models\History::orderBy("created_at", "desc")->get();
         }
-        // TODO 1 : bug karyawan
         else {
             $outletId = $user->outlet->id;
             $history = \App\Models\History::where('outlet_id', $outletId)->orderBy("created_at", "desc")->get();

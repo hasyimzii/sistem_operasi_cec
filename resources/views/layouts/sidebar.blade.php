@@ -11,7 +11,7 @@
             @endphp
             @if($user->role->name == 'admin')
             <li>
-                <a href="#" class="has-arrow" aria-expanded="false"><i class="icon icon-cart-9"></i>
+                <a href="{{ route('sale.index') }}" class="has-arrow" aria-expanded="false"><i class="icon icon-cart-9"></i>
                     <span class="nav-text">Penjualan</span>
                 </a>
             </li>
@@ -59,7 +59,7 @@
             <!-- User Sidebar -->
             @else
             <li>
-                <a href="#" class="has-arrow" aria-expanded="false"><i class="icon icon-cart-9"></i>
+                <a href="{{ route('sale.list', $user->outlet->id) }}" class="has-arrow" aria-expanded="false"><i class="icon icon-cart-9"></i>
                     <span class="nav-text">Penjualan</span>
                 </a>
             </li>

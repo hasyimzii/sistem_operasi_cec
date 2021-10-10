@@ -74,6 +74,15 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('{id}/edit', '\App\Http\Controllers\StockController@edit')->name('edit');
         Route::post('{id}/edit', '\App\Http\Controllers\StockController@update')->name('update');
     });
+    // Sale
+    Route::group(['as' => 'sale.','prefix' => 'penjualan'], function () {
+        Route::get('/', '\App\Http\Controllers\SaleController@index')->name('index')->middleware('admin');
+        Route::get('{id}/list', '\App\Http\Controllers\SaleController@list')->name('list');
+        Route::get('{id}/create', '\App\Http\Controllers\SaleController@create')->name('create');
+        Route::post('{id}/create', '\App\Http\Controllers\SaleController@store')->name('store');
+        Route::get('{id}/edit', '\App\Http\Controllers\SaleController@edit')->name('edit')->middleware('admin');
+        Route::post('{id}/edit', '\App\Http\Controllers\SaleController@update')->name('update')->middleware('admin');
+    });
 });
 
 Auth::routes();
