@@ -27,19 +27,24 @@
                     <table id="example" class="display text-muted" style="min-width: 845px">
                         <thead>
                             <tr>
+                                <th>Tanggal</th>
                                 <th>Nama Produk</th>
                                 <th>Jumlah</th>
                                 <th>Total Harga</th>
-                                <th>Opsi</th>
+                                @if(auth()->user()->role->name == 'admin')
+                                    <th>Opsi</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($sale as $data)
                                 <tr>
+                                    <td>{{ $data->created_at }}</td>
                                     <td>{{ $data->stock->product->name }}</td>
                                     <td>{{ $data->amount }}</td>
                                     <td>Rp {{ $data->amount * $data->stock->price }}
                                     </td>
+                                    @if(auth()->user()->role->name == 'admin')
                                     <td>
                                         <a href="{{ route('sale.edit', $data->id) }}">
                                             <button type="button" class="btn btn-warning">
@@ -47,6 +52,7 @@
                                             </button>
                                         </a>
                                     </td>
+                                    @endif
                                 </tr>
                             @empty
                             @endforelse

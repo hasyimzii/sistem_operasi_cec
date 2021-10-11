@@ -32,6 +32,7 @@
                                 <th>Stok</th>
                                 <th>Harga</th>
                                 <th>Deskripsi</th>
+                                <th>Status</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -44,6 +45,7 @@
                                     </td>
                                     <td>Rp {{ $data->price }}</td>
                                     <td>{{ $data->product->description }}</td>
+                                    <td>{{ $data->active == 1 ? "Aktif" : "Tidak Aktif" }}</td>
                                     <td>
                                         <div class="btn-group">
                                             <a href="{{ route('stock.show', $data->id) }}">
