@@ -34,8 +34,8 @@ class HomeController extends Controller
         }
         else {
             $outletId = $user->outlet->id;
-            $histories = \App\Models\History::all();
-            $history = $histories->user()->where('outlet_id', $outletId)->orderBy("created_at", "desc")->get();
+            $history = \App\Models\History::select('histories.*')->join('users', 'users.id', '=', 'histories.user_id')->join('outlets', 'outlets.id', '=', 'users.id')->where('outlet_id', $outletId)->orderBy("created_at", "desc")->get();
+            // $history = $histories->where('outlet_id', $outletId)->orderBy("created_at", "desc")->get();
         }
         return view('home.history',compact('history'));
     }
