@@ -68,15 +68,19 @@
                             <h3 style="margin-top: 12px;">Sistem Operasional Outlet Creative Economy Center</h3>
                         </div>
 
+
+                        @php
+                            $user = auth()->user()
+                        @endphp
                         <ul class="navbar-nav header-right">
+                            <li class="mt-1 pt-4">
+                                <h5>{{ $user->name }}</h5>
+                            </li>
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
                                     <i class="icon icon-settings-gear-64"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    @php
-                                        $user = auth()->user()
-                                    @endphp
                                     <a href="{{ route('user.passEdit', $user->id) }}"
                                         class="dropdown-item">
                                         <i class="icon-key"></i>

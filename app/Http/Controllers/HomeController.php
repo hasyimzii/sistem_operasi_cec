@@ -14,10 +14,21 @@ class HomeController extends Controller
     public function index()
     {
         $user = auth()->user();
+        // check is active
         if($user->active = 1) {
-            return redirect()->route('user.show', $user->id);
+            // check role return dashboard
+            if ($user->hasRole('admin')) {
+                return redirect()->route('sale.index');
+            }
+            else if ($user->hasRole('employee')) {
+                return redirect()->route('sale.create', $user->outlet->id);
+            }
+            else {
+                return redirect()->route('login');
+            }
         }
-        return redirect('/login');
+        // if no auth
+        return redirect()->route('login');
     }
 
     /**

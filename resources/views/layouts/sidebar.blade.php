@@ -11,6 +11,11 @@
             @endphp
             @if($user->role->name == 'admin')
             <li>
+                <a href="{{ route('sale.index') }}" class="has-arrow" aria-expanded="false"><i class="icon icon-layout-25"></i>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('sale.index') }}" class="has-arrow" aria-expanded="false"><i class="icon icon-cart-9"></i>
                     <span class="nav-text">Penjualan</span>
                 </a>
@@ -56,8 +61,13 @@
                 </a>
             </li>
 
-            <!-- User Sidebar -->
+            <!-- Employee Sidebar -->
             @else
+            <li>
+                <a href="{{ route('sale.create', $user->outlet->id) }}" class="has-arrow" aria-expanded="false"><i class="icon icon-layout-25"></i>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+            </li>
             <li>
                 <a href="{{ route('sale.list', $user->outlet->id) }}" class="has-arrow" aria-expanded="false"><i class="icon icon-cart-9"></i>
                     <span class="nav-text">Penjualan</span>
