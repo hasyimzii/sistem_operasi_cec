@@ -65,7 +65,7 @@
                 <nav class="navbar navbar-expand">
                     <div class="collapse navbar-collapse justify-content-between">
                         <div class="header-left">
-                            <h3 style="margin-top: 12px;">Sistem Operasional Creative Economy Center</h3>
+                            <h3 style="margin-top: 12px;">Sistem Operasional Outlet Creative Economy Center</h3>
                         </div>
 
                         <ul class="navbar-nav header-right">

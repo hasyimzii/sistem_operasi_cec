@@ -28,7 +28,7 @@ class StockController extends Controller
     public function list($id)
     {
         $outlet = \App\Models\Outlet::findOrFail($id);
-        $stock = \App\Models\Stock::where("outlet_id", $outlet->id)->get();
+        $stock = \App\Models\Stock::where("outlet_id", $outlet->id)->where('active', 1)->get();
         return view('stock.list',compact('outlet','stock'));
     }
 
@@ -81,6 +81,7 @@ class StockController extends Controller
             $product = \App\Models\Product::findOrFail($request->product_id);
             $dataHistory = [
                 'user_id' => $user->id,
+                'category' => 'Stok',
                 'description' => 'Menambah data stok '. $product->name .
                                 ' stok: '. $request->amount .
                                 ' harga: '. $request->price,
@@ -149,6 +150,7 @@ class StockController extends Controller
             $product = \App\Models\Product::findOrFail($request->product_id);
             $dataHistory = [
                 'user_id' => $user->id(),
+                'category' => 'Stok',
                 'description' => 'Mengubah data stok '. $product->name .
                                 ' stok: '. $request->amount,
             ];

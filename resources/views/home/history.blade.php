@@ -23,6 +23,7 @@
                                 <th>Tanggal</th>
                                 <th>Nama Karyawan</th>
                                 <th>Asal Outlet</th>
+                                <th>Kategori</th>
                                 <th>Keterangan</th>
                             </tr>
                         </thead>
@@ -32,6 +33,7 @@
                                     <td>{{ $data->created_at }}</td>
                                     <td>{{ $data->user->name }}</td>
                                     <td>{{ $data->user->outlet->name }}</td>
+                                    <td>{{ $data->category }}</td>
                                     <td>{{ $data->description }}</td>
                                 </tr>
                             @empty

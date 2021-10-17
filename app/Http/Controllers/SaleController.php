@@ -86,6 +86,7 @@ class SaleController extends Controller
             $totalPrice = $stock->price * $request->amount;
             $dataHistory = [
                 'user_id' => $user->id,
+                'category' => 'Penjualan',
                 'description' => 'Melakukan penjualan produk '. $stock->product->name .
                                 ' sebanyak: '. $request->amount .
                                 ' total harga: '. $totalPrice,

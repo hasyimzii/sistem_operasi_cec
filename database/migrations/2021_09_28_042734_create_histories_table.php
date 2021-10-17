@@ -16,6 +16,7 @@ class CreateHistoriesTable extends Migration
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
+            $table->text('category');
             $table->text('description');
             $table->timestamps();
             
