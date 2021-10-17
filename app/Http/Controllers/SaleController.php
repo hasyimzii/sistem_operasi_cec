@@ -32,6 +32,9 @@ class SaleController extends Controller
         return view('sale.list',compact('outlet','sale'));
     }
 
+    // list sale
+    public $listSale = [];
+
     /**
      * Show the form for creating a new resource.
      *
@@ -40,9 +43,30 @@ class SaleController extends Controller
      */
     public function create($id)
     {
+        $list = $this->listSale;
         $outlet = \App\Models\Outlet::findOrFail($id);
         $stock = \App\Models\Stock::where('outlet_id', $outlet->id)->where('amount', '!=', 0)->get();
-        return view('sale.create',compact('outlet','stock'));
+        return view('sale.create',compact('list','outlet','stock'));
+    }
+
+    /**
+     * Add sale list items.
+     *
+     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function addList(Request $request, $id) {
+        // get stock id
+        $stock = \App\Models\Stock::findOrFail($request->stock_id);
+
+        $dataAdd = [
+            'stock_id' => $request->stock_id,
+            'amount' => $request->amount,
+            'price' => $stock->price,
+        ];
+        array_push($this->listSale, $dataAdd);
+        return back();
     }
 
     /**

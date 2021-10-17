@@ -40,27 +40,43 @@
                     <input type="number" name="product_id" value="{{ $stock->product->id }}" hidden>
                     <div class="form-group">
                         <label>Nama Produk</label>
-                        <input type="text" class="form-control" style="background: #c4c4c4;" value="{{ $stock->product->name }}"
-                            placeholder="Tulis nama kategori..." disabled>
+                        <input type="text" class="form-control" style="background: #c4c4c4;"
+                            value="{{ $stock->product->name }}" placeholder="Tulis nama kategori..." disabled>
                     </div>
-                    <div class="form-group">
-                        <label>Stok Produk Saat Ini</label>
-                        <input type="number" class="form-control" style="background: #c4c4c4;" name="old_amount"
-                            value="{{ $stock->amount }}" readonly>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Stok Produk Saat Ini</label>
+                            <input type="number" class="form-control" style="background: #c4c4c4;" name="old_amount"
+                                value="{{ $stock->amount }}" readonly>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Stok Produk yang Masuk (Beri Minus Jika Ingin Mengurangi, Contoh: -10)</label>
+                            <input type="number" class="form-control" name="amount" value="0"
+                                placeholder="Tulis stok produk yang masuk..." required>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Stok Produk yang Masuk (Beri Minus Jika Ingin Mengurangi, Contoh: -10)</label>
-                        <input type="number" class="form-control" name="amount" value="0"
-                            placeholder="Tulis stok produk yang masuk..." required>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Harga Produk Saat Ini</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Rp</span>
+                                </div>
+                                <input type="number" class="form-control" style="background: #c4c4c4;" name="old_price"
+                                    value="{{ $stock->price }}" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Harga Produk Baru (Biarkan 0 Jika Tidak Berubah)</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Rp</span>
+                                </div>
+                                <input type="number" class="form-control" placeholder="Tulis harga baru..." name="price"
+                                    value="0" required>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Harga Produk Saat Ini (Rp)</label>
-                        <input type="number" class="form-control" style="background: #c4c4c4;" name="old_price" value="{{ $stock->price }}" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label>Harga Produk Baru (Rp) (Biarkan 0 Jika Tidak Berubah)</label>
-                        <input type="number" class="form-control" placeholder="Tulis harga baru..." name="price" value="0" required>
-                    </div><br>
                     <button type="submit" class="btn btn-block btn-primary">Edit Data</button>
                 </form>
             </div>

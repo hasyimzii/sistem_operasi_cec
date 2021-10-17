@@ -27,27 +27,29 @@
             </div>
         @elseif($message = Session::get('error'))
             @foreach($message as $msg)
-            <div class="mt-4 mb-0 mx-4 alert alert-danger alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                {{ $msg }}
-            </div>
-            @endforeach 
+                <div class="mt-4 mb-0 mx-4 alert alert-danger alert-block">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    {{ $msg }}
+                </div>
+            @endforeach
         @endif
         <div class="card-body">
             <div class="basic-form">
                 <form action="{{ route('stock.store', $outlet->id) }}" method="post">
                     @csrf
                     <input type="number" name="outlet_id" value="{{ $outlet->id }}" hidden>
-                    <div class="form-group">
-                        <label>Nama Produk (Pilih Satu yang Belum Tersedia di Outlet):</label>
-                        <select class="form-control" id="sel1" name="product_id">
-                            @forelse($product as $data)
-                            <option value="{{ $data->id }}">{{ $data->name }}</option>
-                            @empty
-                            @endforelse
-                        </select>
+                    <div class="form-row">
+                        <div class="col-sm-5">
+                            <label>Nama Produk (Pilih Satu yang Belum Tersedia di Outlet):</label>
+                            <select class="form-control" id="sel1" name="product_id">
+                                @forelse($product as $data)
+                                    <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                @empty
+                                @endforelse
+                            </select>
+                        </div>
                     </div><br>
-                    <button type="submit" class="btn btn-block btn-primary">Tambah Data</button>
+                    <button type="submit" class="btn btn-primary col-sm-5">Tambah Data</button>
                 </form>
             </div>
         </div>

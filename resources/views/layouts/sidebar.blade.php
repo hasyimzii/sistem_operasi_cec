@@ -15,11 +15,11 @@
                     <span class="nav-text">Dashboard</span>
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="{{ route('sale.index') }}" class="has-arrow" aria-expanded="false"><i class="icon icon-cart-9"></i>
                     <span class="nav-text">Penjualan</span>
                 </a>
-            </li>
+            </li> -->
             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                 <i class="icon icon-app-store"></i><span class="nav-text">Produk</span></a>
                 <ul aria-expanded="false">
