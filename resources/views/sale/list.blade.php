@@ -8,13 +8,6 @@
             <h4 class="text-white">Data Penjualan</h4>
         </div>
     </div>
-    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-        <a href="{{ route('sale.create', $outlet->id) }}">
-            <button type="button" class="btn btn-primary">
-                Tambah Data
-            </button>
-        </a>
-    </div>
 </div>
 <!-- row -->
 

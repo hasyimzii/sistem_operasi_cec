@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Login</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="{{ asset('assets/images/favicon.png') }}">
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
 </head>
@@ -24,9 +25,19 @@
                                     <h3 class="text-center mb-4">Sistem Operasional Creative Economy Center</h3>
                                     <form action="{{ route('login') }}" method="post">
                                         @csrf
+
+                                        @error('email')
+                                            <div class="my-4 alert alert-danger alert-block">
+                                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                                Login Gagal!
+                                            </div>
+                                        @enderror
+
                                         <div class="form-group">
                                             <label><strong>Email</strong></label>
-                                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autofocus required>
+                                            <input type="email"
+                                                class="form-control @error('email') is-invalid @enderror" name="email"
+                                                value="{{ old('email') }}" autofocus required>
                                             @error('email')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
