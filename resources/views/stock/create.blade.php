@@ -39,23 +39,13 @@
                     @csrf
                     <input type="number" name="outlet_id" value="{{ $outlet->id }}" hidden>
                     <div class="form-group">
-                        <label>Nama Produk (Pilih satu):</label>
+                        <label>Nama Produk (Pilih Satu yang Belum Tersedia di Outlet):</label>
                         <select class="form-control" id="sel1" name="product_id">
                             @forelse($product as $data)
                             <option value="{{ $data->id }}">{{ $data->name }}</option>
                             @empty
                             @endforelse
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Stok Produk</label>
-                        <input type="number" class="form-control input-default " name="amount"
-                            placeholder="Tulis stok produk..." required>
-                    </div>
-                    <div class="form-group">
-                        <label>Harga Produk (Rp)</label>
-                        <input type="number" class="form-control input-default " name="price"
-                            placeholder="Tulis harga produk..." required>
                     </div><br>
                     <button type="submit" class="btn btn-block btn-primary">Tambah Data</button>
                 </form>

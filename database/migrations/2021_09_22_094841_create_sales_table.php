@@ -18,6 +18,7 @@ class CreateSalesTable extends Migration
             $table->foreignId('outlet_id');
             $table->foreignId('stock_id');
             $table->integer('amount');
+            $table->integer('price');
             $table->timestamps();
             
             $table->foreign('outlet_id')->references('id')->on('outlets')->onUpdate('cascade');

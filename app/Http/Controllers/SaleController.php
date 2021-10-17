@@ -41,7 +41,7 @@ class SaleController extends Controller
     public function create($id)
     {
         $outlet = \App\Models\Outlet::findOrFail($id);
-        $stock = \App\Models\Stock::where('active', 1)->where('amount', '!=', 0)->get();
+        $stock = \App\Models\Stock::where('outlet_id', $outlet->id)->where('amount', '!=', 0)->get();
         return view('sale.create',compact('outlet','stock'));
     }
 
@@ -124,7 +124,7 @@ class SaleController extends Controller
     public function edit($id)
     {
         $sale = \App\Models\Sale::findOrFail($id);
-        $stock = \App\Models\Stock::where('active', 1)->where('amount', '!=', 0)->get();
+        $stock = \App\Models\Stock::all();
         return view('sale.edit',compact('sale','stock'));
     }
 

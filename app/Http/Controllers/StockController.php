@@ -28,7 +28,7 @@ class StockController extends Controller
     public function list($id)
     {
         $outlet = \App\Models\Outlet::findOrFail($id);
-        $stock = \App\Models\Stock::where("outlet_id", $outlet->id)->where('active', 1)->get();
+        $stock = \App\Models\Stock::where("outlet_id", $outlet->id)->get();
         return view('stock.list',compact('outlet','stock'));
     }
 
@@ -61,20 +61,25 @@ class StockController extends Controller
         $dataValidator = [
             'outlet_id' => 'required|numeric',
             'product_id' => 'required|numeric',
-            'amount' => 'required|numeric',
-            'price' => 'required|numeric',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
             return back()->with('error', $validator->errors()->all());
         }
 
+        // check if stock is exist
+        $stock = \App\Models\Stock::where("outlet_id", $request->outlet_id)->get();
+        foreach($stock as $s) {
+            if($s->product_id == $request->product_id) {
+                return back()->with('error', ['Gagal, Stok sudah ada!']);
+            }
+        }
+        
         $dataCreate = [
             'outlet_id' => $request->outlet_id,
             'product_id' => $request->product_id,
-            'amount' => $request->amount,
-            'price' => $request->price,
-            'active' => 1,
+            'amount' => 0,
+            'price' => 0,
         ];
 
         if ($userRole == 'employee') {
@@ -82,9 +87,7 @@ class StockController extends Controller
             $dataHistory = [
                 'user_id' => $user->id,
                 'category' => 'Stok',
-                'description' => 'Menambah data stok '. $product->name .
-                                ' stok: '. $request->amount .
-                                ' harga: '. $request->price,
+                'description' => 'Menambah data stok '. $product->name,
             ];
             $history = \App\Models\History::create($dataHistory);
         }
@@ -132,30 +135,47 @@ class StockController extends Controller
 
         $dataValidator = [
             'product_id' => 'required|numeric',
+            'old_amount' => 'required|numeric',
             'amount' => 'required|numeric',
-            'active' => 'required|numeric',
+            'old_price' => 'required|numeric',
+            'price' => 'required|numeric',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
             return back()->with('error', $validator->errors()->all());
         }
 
+        // count new amount
+        $new_amount = $request->old_amount + $request->amount;
+
         $dataUpdate = [
             'product_id' => $request->product_id,
-            'amount' => $request->amount,
-            'active' => $request->active,
+            'amount' => ($request->amount == 0) ? $request->old_amount : $new_amount,
+            'price' => ($request->price == 0) ? $request->old_price : $request->price,
         ];
 
-        if ($userRole == 'employee') {
-            $product = \App\Models\Product::findOrFail($request->product_id);
+        $product = \App\Models\Product::findOrFail($request->product_id);
+        // if not change price
+        if($request->price == 0) {
             $dataHistory = [
-                'user_id' => $user->id(),
+                'user_id' => $user->id,
                 'category' => 'Stok',
                 'description' => 'Mengubah data stok '. $product->name .
-                                ' stok: '. $request->amount,
+                                ' stok: '. $new_amount,
             ];
-            $history = \App\Models\History::create($dataHistory);
         }
+        // if change price
+        else {
+            $dataHistory = [
+                'user_id' => $user->id,
+                'category' => 'Stok',
+                'description' => 'Mengubah data stok '. $product->name .
+                                ' stok: '. $new_amount .
+                                ' harga: '. $request->price,
+            ];
+        }
+        $history = \App\Models\History::create($dataHistory);
+
         $stock->update($dataUpdate);
         return back()->with('success', 'Berhasil memperbarui data stok');
     }
