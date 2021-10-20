@@ -69,8 +69,8 @@ class StockController extends Controller
 
         // check if stock is exist
         $stock = \App\Models\Stock::where("outlet_id", $request->outlet_id)->get();
-        foreach($stock as $s) {
-            if($s->product_id == $request->product_id) {
+        foreach($stock as $data) {
+            if($data->product_id == $request->product_id) {
                 return back()->with('error', ['Gagal, Stok sudah ada!']);
             }
         }
@@ -161,7 +161,7 @@ class StockController extends Controller
                 'user_id' => $user->id,
                 'category' => 'Stok',
                 'description' => 'Mengubah data stok '. $product->name .
-                                ' stok: '. $new_amount,
+                                 '\n - stok: '. $new_amount,
             ];
         }
         // if change price
@@ -170,8 +170,8 @@ class StockController extends Controller
                 'user_id' => $user->id,
                 'category' => 'Stok',
                 'description' => 'Mengubah data stok '. $product->name .
-                                ' stok: '. $new_amount .
-                                ' harga: '. $request->price,
+                                 '\n - stok: '. $new_amount .
+                                 '\n - harga: '. $request->price,
             ];
         }
         $history = \App\Models\History::create($dataHistory);

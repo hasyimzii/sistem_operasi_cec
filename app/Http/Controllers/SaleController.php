@@ -32,9 +32,6 @@ class SaleController extends Controller
         return view('sale.list',compact('outlet','sale'));
     }
 
-    // list sale
-    public $listSale = [];
-
     /**
      * Show the form for creating a new resource.
      *
@@ -43,10 +40,18 @@ class SaleController extends Controller
      */
     public function create($id)
     {
-        $list = $this->listSale;
+        $user = auth()->user();
         $outlet = \App\Models\Outlet::findOrFail($id);
         $stock = \App\Models\Stock::where('outlet_id', $outlet->id)->where('amount', '!=', 0)->get();
-        return view('sale.create',compact('list','outlet','stock'));
+        $cart = \App\Models\Cart::where('user_id', $user->id)->get();
+
+        // count price
+        $totalPrice = 0;
+        foreach($cart as $data) {
+            $result = $data->amount * $data->stock->price;
+            $totalPrice += $result;
+        }
+        return view('sale.create',compact('outlet','stock','cart','totalPrice'));
     }
 
     /**
@@ -56,16 +61,61 @@ class SaleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function addList(Request $request, $id) {
-        // get stock id
+    public function addCart(Request $request, $id)
+    {
+        $user = auth()->user();
         $stock = \App\Models\Stock::findOrFail($request->stock_id);
 
-        $dataAdd = [
+        // check if cart is exist
+        $cart = \App\Models\Cart::where("user_id", $user->id)->get();
+        foreach($cart as $data) {
+            if($data->stock_id == $request->stock_id) {
+                return back()->with('error', ['Gagal, Produk sudah masuk dalam keranjang!']);
+            }
+        }
+        
+        // if stock not enough
+        $stock = \App\Models\Stock::findOrFail($request->stock_id);
+        if($request->amount > $stock->amount) {
+            return back()->with('error', ['Stok produk tidak cukup!']);
+        }
+
+        $dataCreate = [
+            'user_id' => $user->id,
             'stock_id' => $request->stock_id,
             'amount' => $request->amount,
-            'price' => $stock->price,
         ];
-        array_push($this->listSale, $dataAdd);
+        $cart = \App\Models\Cart::create($dataCreate);
+        return back();
+    }
+    
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteCart($id)
+    {
+        $cart = \App\Models\Cart::findOrFail($id);
+        if($cart->get()->isEmpty()){
+            return back()->with('error', ['Data tidak ditemukan!']);
+        }
+        $cart->delete();
+        return back();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function clearCart($id)
+    {
+        $user = auth()->user();
+        $cartId = \App\Models\Cart::where('user_id', $user->id)->get(['id']);
+        \App\Models\Cart::destroy($cartId->toArray());
         return back();
     }
 
@@ -79,53 +129,64 @@ class SaleController extends Controller
     public function store(Request $request, $id)
     {
         $user = auth()->user();
-        $userRole = $user->role->name;
         $input = $request->all();
         
         $dataValidator = [
             'outlet_id' => 'required|numeric',
-            'stock_id' => 'required|numeric',
-            'amount' => 'required|numeric',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
             return back()->with('error', $validator->errors()->all());
         }
 
-        // if stock not enough
-        $stock = \App\Models\Stock::findOrFail($request->stock_id);
-        if($request->amount > $stock->amount) {
-            return back()->with('error', ['Stok produk tidak cukup!']);
-        }
-
-        $dataCreate = [
-            'outlet_id' => $request->outlet_id,
-            'stock_id' => $request->stock_id,
-            'amount' => $request->amount,
-        ];
-
-        // employee history
-        if ($userRole == 'employee') {
-            // total price
-            $totalPrice = $stock->price * $request->amount;
-            $dataHistory = [
-                'user_id' => $user->id,
-                'category' => 'Penjualan',
-                'description' => 'Melakukan penjualan produk '. $stock->product->name .
-                                ' sebanyak: '. $request->amount .
-                                ' total harga: '. $totalPrice,
-            ];
-            $history = \App\Models\History::create($dataHistory);
-        }
-
-        $sale = \App\Models\Sale::create($dataCreate);
         
-        // decrease stock
-        $decreasedStock = $stock->amount - $request->amount;
-        $dataAmount = ['amount' => $decreasedStock];
-        $stock->update($dataAmount);
+        // assign cart to sale
+        $cart = \App\Models\Cart::where("user_id", $user->id)->get();
+        // check cart is empty
+        if($cart->isEmpty()) {
+            return back()->with('error', ['Gagal, Keranjang kosong!']);
+        }
 
-        return back()->with('success', 'Berhasil menambah data penjualan');
+        // countChange
+        $change = $request->money - $request->total_price;
+        // check money not enough
+        if($change < 0) {
+            return back()->with('error', ['Gagal, Uang kurang!']);
+        }
+
+        // make sale
+        $sale = \App\Models\Sale::create(['outlet_id' => $request->outlet_id]);
+        // make orders
+        foreach($cart as $data) {
+            $dataCreate = [
+                'sale_id' => $sale->id,
+                'stock_id' => $data->stock_id,
+                'amount' => $data->amount,
+                'price' => $data->stock->price,
+            ];
+            $order = \App\Models\Order::create($dataCreate);
+
+            // decrease stock
+            $stock = \App\Models\Stock::findOrFail($data->stock_id);
+            $decreasedStock = $stock->amount - $data->amount;
+            $dataAmount = ['amount' => $decreasedStock];
+            $stock->update($dataAmount);
+        }
+
+
+        // total price
+        $totalPrice = $cart->sum('price');
+        // employee history
+        $dataHistory = [
+            'user_id' => $user->id,
+            'category' => 'Penjualan',
+            'description' => 'Melakukan penjualan produk '.
+                            ' sebanyak: '. $cart->count() .
+                            ' total harga: '. $totalPrice,
+        ];
+        $history = \App\Models\History::create($dataHistory);
+
+        return back()->with('success', ['Berhasil menambah data penjualan', $change]);
     }
 
     /**
@@ -148,8 +209,7 @@ class SaleController extends Controller
     public function edit($id)
     {
         $sale = \App\Models\Sale::findOrFail($id);
-        $stock = \App\Models\Stock::all();
-        return view('sale.edit',compact('sale','stock'));
+        return view('sale.edit',compact('sale'));
     }
 
     /**
@@ -183,16 +243,5 @@ class SaleController extends Controller
         ];
         $sale->update($dataUpdate);
         return back()->with('success', 'Berhasil memperbarui data penjualan');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

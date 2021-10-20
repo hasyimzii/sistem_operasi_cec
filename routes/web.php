@@ -79,10 +79,22 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', '\App\Http\Controllers\SaleController@index')->name('index')->middleware('admin');
         Route::get('{id}/list', '\App\Http\Controllers\SaleController@list')->name('list');
         Route::get('{id}/create', '\App\Http\Controllers\SaleController@create')->name('create');
-        Route::post('{id}/create', '\App\Http\Controllers\SaleController@addList')->name('addList');
-        // Route::post('{id}/create', '\App\Http\Controllers\SaleController@store')->name('store');
+        Route::post('{id}/addCart', '\App\Http\Controllers\SaleController@addCart')->name('addList');
+        Route::post('{id}/deleteCart', '\App\Http\Controllers\SaleController@deleteCart')->name('deleteCart');
+        Route::post('{id}/clearCart', '\App\Http\Controllers\SaleController@clearCart')->name('clearCart');
+        Route::post('{id}/create', '\App\Http\Controllers\SaleController@store')->name('store');
         Route::get('{id}/edit', '\App\Http\Controllers\SaleController@edit')->name('edit')->middleware('admin');
         Route::post('{id}/edit', '\App\Http\Controllers\SaleController@update')->name('update')->middleware('admin');
+    });
+    // Expense
+    Route::group(['as' => 'expense.','prefix' => 'pengeluaran'], function () {
+        Route::get('/', '\App\Http\Controllers\ExpenseController@index')->name('index')->middleware('admin');
+        Route::get('{id}/list', '\App\Http\Controllers\ExpenseController@list')->name('list')->middleware('admin');
+        Route::get('{id}/create', '\App\Http\Controllers\ExpenseController@create')->name('create')->middleware('admin');
+        Route::post('{id}/create', '\App\Http\Controllers\ExpenseController@store')->name('store')->middleware('admin');
+        Route::get('{id}/show', '\App\Http\Controllers\ExpenseController@show')->name('show')->middleware('admin');
+        Route::get('{id}/edit', '\App\Http\Controllers\ExpenseController@edit')->name('edit')->middleware('admin');
+        Route::post('{id}/edit', '\App\Http\Controllers\ExpenseController@update')->name('update')->middleware('admin');
     });
 });
 

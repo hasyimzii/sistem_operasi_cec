@@ -39,15 +39,9 @@
                     @csrf
                     <input type="number" name="outlet_id" value="{{ $sale->stock->outlet->id }}" hidden>
                     <div class="form-group">
-                        <label>Nama Produk (Pilih satu):</label>
-                        <select class="form-control" id="sel1" name="stock_id">
-                            @forelse($stock as $data)
-                                <option value="{{ $data->id }}"
-                                    {{ ($data->id == $sale->stock->id) ? 'selected' :'' }}>
-                                    {{ $data->product->name }} (Rp {{ $data->price }})</option>
-                            @empty
-                            @endforelse
-                        </select>
+                        <label>Nama Produk</label>
+                        <input type="text" class="form-control" style="background: #c4c4c4;"
+                            value="asdasd" placeholder="Tulis nama kategori..." disabled>
                     </div>
                     <div class="form-group">
                         <label>Jumlah Produk</label>
