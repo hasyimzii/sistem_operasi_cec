@@ -161,7 +161,7 @@ class StockController extends Controller
                 'user_id' => $user->id,
                 'category' => 'Stok',
                 'description' => 'Mengubah data stok '. $product->name .
-                                 '\n - stok: '. $new_amount,
+                                 '<br> - stok: '. $new_amount,
             ];
         }
         // if change price

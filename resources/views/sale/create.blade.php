@@ -19,7 +19,7 @@
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <form action="{{ route('sale.addList', $outlet->id) }}" method="post">
+                <form action="{{ route('sale.addCart', $outlet->id) }}" method="post">
                     @csrf
                     <input type="number" name="outlet_id" value="{{ $outlet->id }}" hidden>
                     <div class="form-row">

@@ -34,7 +34,7 @@
                                     <td>{{ $data->user->name }}</td>
                                     <td>{{ $data->user->outlet->name }}</td>
                                     <td>{{ $data->category }}</td>
-                                    <td>{{ $data->description }}</td>
+                                    <td>{!! $data->description !!}</td>
                                 </tr>
                             @empty
                             @endforelse

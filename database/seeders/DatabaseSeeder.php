@@ -29,14 +29,11 @@ class DatabaseSeeder extends Seeder
             'phone' => 'admin',
         ]);
 
-        // \App\Models\User::create([
-        //     'role_id' => 1,
-        //     'outlet_id' => 1,
-        //     'name' => 'Admin',
-        //     'email' => 'admin@cec.id',
-        //     'password' => bcrypt('admincec_'),
-        //     'phone' => '088800008888',
-        // ]);
+        \App\Models\Outlet::create([
+            'name' => 'lululul',
+            'address' => 'alskfhlashf',
+            'phone' => '128497120',
+        ]);
 
         \App\Models\User::create([
             'role_id' => 1,
@@ -50,7 +47,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::create([
             'role_id' => 2,
-            'outlet_id' => 1,
+            'outlet_id' => 2,
             'name' => 'Employee',
             'email' => 'emp@cec.id',
             'password' => bcrypt('123'),

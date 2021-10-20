@@ -15,9 +15,11 @@ class CreateSalesTable extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
             $table->foreignId('outlet_id');
             $table->timestamps();
             
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
             $table->foreign('outlet_id')->references('id')->on('outlets')->onUpdate('cascade');
         });
     }

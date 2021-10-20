@@ -78,8 +78,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['as' => 'sale.','prefix' => 'penjualan'], function () {
         Route::get('/', '\App\Http\Controllers\SaleController@index')->name('index')->middleware('admin');
         Route::get('{id}/list', '\App\Http\Controllers\SaleController@list')->name('list');
+        Route::get('{id}/order', '\App\Http\Controllers\SaleController@order')->name('order');
+        Route::get('{id}/showOrder', '\App\Http\Controllers\SaleController@showOrder')->name('showOrder');
         Route::get('{id}/create', '\App\Http\Controllers\SaleController@create')->name('create');
-        Route::post('{id}/addCart', '\App\Http\Controllers\SaleController@addCart')->name('addList');
+        Route::post('{id}/addCart', '\App\Http\Controllers\SaleController@addCart')->name('addCart');
         Route::post('{id}/deleteCart', '\App\Http\Controllers\SaleController@deleteCart')->name('deleteCart');
         Route::post('{id}/clearCart', '\App\Http\Controllers\SaleController@clearCart')->name('clearCart');
         Route::post('{id}/create', '\App\Http\Controllers\SaleController@store')->name('store');

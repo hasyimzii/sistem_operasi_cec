@@ -33,6 +33,31 @@ class SaleController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function order($id)
+    {
+        $sale = \App\Models\Sale::findOrFail($id);
+        $order = \App\Models\Order::where('sale_id', $id)->get();
+        return view('sale.order',compact('sale','order'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showOrder($id)
+    {
+        $order = \App\Models\Order::findOrFail($id);
+        return view('sale.showOrder',compact('order'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @param  int  $id
@@ -155,7 +180,12 @@ class SaleController extends Controller
         }
 
         // make sale
-        $sale = \App\Models\Sale::create(['outlet_id' => $request->outlet_id]);
+        $dataSale = [
+            'user_id' => $user->id,
+            'outlet_id' => $request->outlet_id,
+        ];
+        $sale = \App\Models\Sale::create($dataSale);
+
         // make orders
         foreach($cart as $data) {
             $dataCreate = [
@@ -174,30 +204,24 @@ class SaleController extends Controller
         }
 
 
-        // total price
-        $totalPrice = $cart->sum('price');
+        // count price
+        $totalPrice = 0;
+        foreach($cart as $data) {
+            $result = $data->amount * $data->stock->price;
+            $totalPrice += $result;
+        }
+
         // employee history
         $dataHistory = [
             'user_id' => $user->id,
             'category' => 'Penjualan',
             'description' => 'Melakukan penjualan produk '.
                             ' sebanyak: '. $cart->count() .
-                            ' total harga: '. $totalPrice,
+                            ', total harga: '. $totalPrice,
         ];
         $history = \App\Models\History::create($dataHistory);
 
         return back()->with('success', ['Berhasil menambah data penjualan', $change]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**

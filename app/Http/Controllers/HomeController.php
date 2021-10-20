@@ -41,14 +41,14 @@ class HomeController extends Controller
         $user = auth()->user();
         $userRole = $user->role->name;
         if($userRole == 'admin') {
-            $history = \App\Models\History::orderBy("created_at", "desc")->get();
+            $history = \App\Models\History::all();
         }
         else {
             $outletId = $user->outlet->id;
             $history = \App\Models\History::select('histories.*')
                 ->join('users', 'users.id', '=', 'histories.user_id')
                 ->join('outlets', 'outlets.id', '=', 'users.outlet_id')
-                ->where('outlet_id', $outletId)->orderBy("created_at", "desc")->get();
+                ->where('outlet_id', $outletId)->get();
         }
         return view('home.history',compact('history'));
     }
