@@ -21,6 +21,11 @@ class Outlet extends Model
         return $this->hasMany(Stock::class);
     }
 
+    public function sale()
+    {
+        return $this->hasMany(Sale::class);
+    }
+
     public function expense()
     {
         return $this->hasMany(Expense::class);

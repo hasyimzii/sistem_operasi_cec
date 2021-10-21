@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Jumlah Beli</label>
+                        <label class="col-sm-3 col-form-label">Jumlah Order</label>
                         <div class="col-sm-9">
                             <input type="text" readonly class="form-control-plaintext" value="{{ $order->amount }} Produk">
                         </div>

@@ -232,8 +232,8 @@ class SaleController extends Controller
      */
     public function edit($id)
     {
-        $sale = \App\Models\Sale::findOrFail($id);
-        return view('sale.edit',compact('sale'));
+        $order = \App\Models\Order::findOrFail($id);
+        return view('sale.edit',compact('order'));
     }
 
     /**
@@ -246,26 +246,31 @@ class SaleController extends Controller
     public function update(Request $request, $id)
     {
         $user = auth()->user();
-        $userRole = $user->role->name;
-        $sale = \App\Models\Sale::findOrFail($id);
+        $order = \App\Models\Order::findOrFail($id);
         $input = $request->all();
 
         $dataValidator = [
             'outlet_id' => 'required|numeric',
             'stock_id' => 'required|numeric',
+            'old_amount' => 'required|numeric',
             'amount' => 'required|numeric',
+            'price' => 'required|numeric',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
             return back()->with('error', $validator->errors()->all());
         }
 
+        // count new amount
+        $new_amount = $request->old_amount + $request->amount;
+
         $dataUpdate = [
             'outlet_id' => $request->outlet_id,
             'stock_id' => $request->stock_id,
-            'amount' => $request->amount,
+            'amount' => ($request->amount == 0) ? $request->old_amount : $new_amount,
+            'price' => $request->price,
         ];
-        $sale->update($dataUpdate);
-        return back()->with('success', 'Berhasil memperbarui data penjualan');
+        $order->update($dataUpdate);
+        return back()->with('success', 'Berhasil memperbarui data order');
     }
 }

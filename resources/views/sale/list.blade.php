@@ -49,7 +49,7 @@
                                 <tr>
                                     <td>{{ $data->created_at }}</td>
                                     <td>{{ $data->user->name }}</td>
-                                    <td>{{ $totalPrice }}</td>
+                                    <td>Rp {{ $totalPrice }}</td>
                                     <td>
                                         <a href="{{ route('sale.order', $data->id) }}">
                                             <button type="button" class="btn btn-info">

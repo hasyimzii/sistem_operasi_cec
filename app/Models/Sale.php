@@ -16,9 +16,9 @@ class Sale extends Model
         return $this->belongsTo(User::class);
     }
     
-    public function stock()
+    public function outlet()
     {
-        return $this->belongsTo(Stock::class);
+        return $this->belongsTo(Outlet::class);
     }
 
     public function order()
