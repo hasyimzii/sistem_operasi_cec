@@ -95,8 +95,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['as' => 'expense.','prefix' => 'pengeluaran'], function () {
         Route::get('/', '\App\Http\Controllers\ExpenseController@index')->name('index')->middleware('admin');
         Route::get('{id}/list', '\App\Http\Controllers\ExpenseController@list')->name('list')->middleware('admin');
-        Route::get('/create', '\App\Http\Controllers\ExpenseController@create')->name('create')->middleware('admin');
-        Route::post('/create', '\App\Http\Controllers\ExpenseController@store')->name('store')->middleware('admin');
+        Route::get('{id}/create', '\App\Http\Controllers\ExpenseController@create')->name('create')->middleware('admin');
+        Route::post('{id}/create', '\App\Http\Controllers\ExpenseController@store')->name('store')->middleware('admin');
         Route::get('{id}/show', '\App\Http\Controllers\ExpenseController@show')->name('show')->middleware('admin');
         Route::get('{id}/edit', '\App\Http\Controllers\ExpenseController@edit')->name('edit')->middleware('admin');
         Route::post('{id}/edit', '\App\Http\Controllers\ExpenseController@update')->name('update')->middleware('admin');

@@ -44,7 +44,7 @@
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Total Pengeluaran</label>
                         <div class="col-sm-9">
-                            <input type="text" readonly class="form-control-plaintext" value="Rp {{ $expense->price }}">
+                            <input type="text" readonly class="form-control-plaintext" value="Rp {{ ($expense->amount * $expense->price) }}">
                         </div>
                     </div>
                     <div class="form-group row">

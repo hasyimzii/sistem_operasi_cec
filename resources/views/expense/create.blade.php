@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Stok')
+@section('title', 'Tambah Pengeluaran')
 @section('content')
 <div class="row page-titles mx-0" style="background: #343957;">
     <div class="col-sm-6 mt-1 p-md-0">
         <div class="welcome-text">
-            <h4 class="text-white">Tambah Stok</h4>
+            <h4 class="text-white">Tambah Pengeluaran</h4>
         </div>
     </div>
     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-        <a href="{{ route('stock.list', $outlet->id) }}">
+        <a href="{{ route('expense.list', $outlet->id) }}">
             <button type="button" class="btn btn-light">
                 Kembali
             </button>
@@ -35,21 +35,36 @@
         @endif
         <div class="card-body">
             <div class="basic-form">
-                <form action="{{ route('stock.store', $outlet->id) }}" method="post">
+                <form action="{{ route('expense.store', $outlet->id) }}" method="post">
                     @csrf
                     <input type="number" name="outlet_id" value="{{ $outlet->id }}" hidden>
-                    <div class="form-row">
-                        <div class="col-sm-5">
-                            <label>Nama Produk (Pilih Satu yang Belum Tersedia di Outlet):</label>
-                            <select class="form-control" id="sel1" name="product_id">
-                                @forelse($product as $data)
-                                    <option value="{{ $data->id }}">{{ $data->name }}</option>
-                                @empty
-                                @endforelse
-                            </select>
+                    <div class="form-group">
+                        <label>Nama Barang</label>
+                        <input type="text" class="form-control input-default " name="name"
+                            placeholder="Tulis nama barang..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Jumlah</label>
+                        <input type="number" class="form-control input-default " name="amount"
+                            placeholder="Tulis jumlah barang..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Satuan (contoh: kg, liter, pack, dll)</label>
+                        <input type="text" class="form-control input-default " name="unit"
+                            placeholder="Tulis satuan jumlah barang..." required>
+                    </div>
+                    <label>Harga Barang</label>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Rp</span>
+                                </div>
+                                <input type="number" class="form-control" name="price" value="0" required>
+                            </div>
                         </div>
-                    </div><br>
-                    <button type="submit" class="btn btn-primary col-sm-5">Tambah Data</button>
+                    </div>
+                    <button type="submit" class="btn btn-block btn-primary">Tambah Data</button>
                 </form>
             </div>
         </div>

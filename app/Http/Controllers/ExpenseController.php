@@ -83,7 +83,7 @@ class ExpenseController extends Controller
             'user_id' => $user->id,
             'category' => 'Pengeluaran',
             'description' => 'Menambah data pengeluaran outlet '. $outlet->name .
-                             '<br> - barang: '. $request->name,
+                             '<br> - barang: '. $request->name .
                              '<br> - jumlah: '. $request->amount .' '. $request->unit .
                              '<br> - harga: '. $request->price,
         ];

@@ -138,7 +138,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Rp</span>
                                 </div>
-                                <input type="number" class="form-control" name="money" value="0">
+                                <input type="number" class="form-control" name="money" value="0" required>
                             </div>
                         </div>
                     </div>
