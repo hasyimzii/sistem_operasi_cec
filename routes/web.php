@@ -74,6 +74,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('{id}/edit', '\App\Http\Controllers\StockController@edit')->name('edit');
         Route::post('{id}/edit', '\App\Http\Controllers\StockController@update')->name('update');
     });
+    // Cart
+    Route::group(['as' => 'cart.','prefix' => 'keranjang'], function () {
+        Route::post('{id}/create', '\App\Http\Controllers\CartController@create')->name('create');
+        Route::post('{id}/delete', '\App\Http\Controllers\CartController@delete')->name('delete');
+        Route::post('{id}/clear', '\App\Http\Controllers\CartController@clear')->name('clear');
+    });
     // Sale
     Route::group(['as' => 'sale.','prefix' => 'penjualan'], function () {
         Route::get('/', '\App\Http\Controllers\SaleController@index')->name('index')->middleware('admin');
@@ -81,9 +87,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('{id}/order', '\App\Http\Controllers\SaleController@order')->name('order');
         Route::get('{id}/showOrder', '\App\Http\Controllers\SaleController@showOrder')->name('showOrder');
         Route::get('{id}/create', '\App\Http\Controllers\SaleController@create')->name('create');
-        Route::post('{id}/addCart', '\App\Http\Controllers\SaleController@addCart')->name('addCart');
-        Route::post('{id}/deleteCart', '\App\Http\Controllers\SaleController@deleteCart')->name('deleteCart');
-        Route::post('{id}/clearCart', '\App\Http\Controllers\SaleController@clearCart')->name('clearCart');
         Route::post('{id}/create', '\App\Http\Controllers\SaleController@store')->name('store');
         Route::get('{id}/edit', '\App\Http\Controllers\SaleController@edit')->name('edit')->middleware('admin');
         Route::post('{id}/edit', '\App\Http\Controllers\SaleController@update')->name('update')->middleware('admin');
@@ -92,11 +95,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['as' => 'expense.','prefix' => 'pengeluaran'], function () {
         Route::get('/', '\App\Http\Controllers\ExpenseController@index')->name('index')->middleware('admin');
         Route::get('{id}/list', '\App\Http\Controllers\ExpenseController@list')->name('list')->middleware('admin');
-        Route::get('{id}/create', '\App\Http\Controllers\ExpenseController@create')->name('create')->middleware('admin');
-        Route::post('{id}/create', '\App\Http\Controllers\ExpenseController@store')->name('store')->middleware('admin');
+        Route::get('/create', '\App\Http\Controllers\ExpenseController@create')->name('create')->middleware('admin');
+        Route::post('/create', '\App\Http\Controllers\ExpenseController@store')->name('store')->middleware('admin');
         Route::get('{id}/show', '\App\Http\Controllers\ExpenseController@show')->name('show')->middleware('admin');
         Route::get('{id}/edit', '\App\Http\Controllers\ExpenseController@edit')->name('edit')->middleware('admin');
         Route::post('{id}/edit', '\App\Http\Controllers\ExpenseController@update')->name('update')->middleware('admin');
+    });
+    // Report
+    Route::group(['as' => 'report.','prefix' => 'laporan'], function () {
+        Route::get('/', '\App\Http\Controllers\ReportController@index')->name('index')->middleware('admin');
+        Route::get('{id}/outlet', '\App\Http\Controllers\ReportController@outlet')->name('outlet')->middleware('admin');
+        Route::get('{id}/show', '\App\Http\Controllers\ReportController@show')->name('show')->middleware('admin');
+        Route::post('/recap', '\App\Http\Controllers\ReportController@recap')->name('recap')->middleware('admin');
     });
 });
 

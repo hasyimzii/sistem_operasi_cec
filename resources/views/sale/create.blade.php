@@ -19,7 +19,7 @@
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <form action="{{ route('sale.addCart', $outlet->id) }}" method="post">
+                <form action="{{ route('cart.create', $outlet->id) }}" method="post">
                     @csrf
                     <input type="number" name="outlet_id" value="{{ $outlet->id }}" hidden>
                     <div class="form-row">
@@ -65,7 +65,7 @@
         </div>
         <div class="card-body">
             <div class="basic-form mb-3">
-                <form action="{{ route('sale.clearCart', $outlet->id) }}" method="post">
+                <form action="{{ route('cart.clear', $outlet->id) }}" method="post">
                     @csrf
                     <button type="submit" class="btn btn-danger">Hapus Semua</button>
                 </form>
@@ -91,7 +91,7 @@
                                 <td>Rp {{ $data->stock->price }}</td>
                                 <td>Rp {{ ($data->stock->price * $data->amount) }}</td>
                                 <td>
-                                    <form action="{{ route('sale.deleteCart', $data->id) }}"
+                                    <form action="{{ route('cart.delete', $data->id) }}"
                                         method="post">
                                         @csrf
                                         <button type="submit" class="btn btn-danger">

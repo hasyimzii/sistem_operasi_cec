@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Validator;
+use Illuminate\Support\Str;
 
 class ExpenseController extends Controller
 {
@@ -29,7 +31,7 @@ class ExpenseController extends Controller
         $expense = \App\Models\Expense::where("outlet_id", $outlet->id)->get();
         return view('expense.list',compact('outlet','expense'));
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -51,6 +53,7 @@ class ExpenseController extends Controller
      */
     public function store(Request $request, $id)
     {
+        $user = auth()->user();
         $input = $request->all();
 
         $dataValidator = [
@@ -72,33 +75,33 @@ class ExpenseController extends Controller
             'unit' => $request->unit,
             'price' => $request->price,
         ];
+        $expense = \App\Models\Expense::create($dataCreate);
 
-        // add history
-        $outlet = \App\Models\Outlet::findOrFail($id);
+        // history
+        $outlet = \App\Models\Outlet::findOrFail($request->outlet_id);
         $dataHistory = [
             'user_id' => $user->id,
             'category' => 'Pengeluaran',
-            'description' => 'Menambah data pengeluaran outlet: '. $outlet->name .
-                             '\n - barang: '. $request->name .
-                             '\n - jumlah: '. $request->amount .
-                             ' '. $request->unit .
-                             '\n - harga: '. $request->price,
+            'description' => 'Menambah data pengeluaran outlet '. $outlet->name .
+                             '<br> - barang: '. $request->name,
+                             '<br> - jumlah: '. $request->amount .' '. $request->unit .
+                             '<br> - harga: '. $request->price,
         ];
         $history = \App\Models\History::create($dataHistory);
 
-        $expense = \App\Models\Expense::create($dataCreate);
         return back()->with('success', 'Berhasil menambahkan data pengeluaran');
     }
 
     /**
-     * Display the specified resource.
+     * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $expense = \App\Models\Expense::findOrFail($id);
+        return view('expense.show',compact('expense'));
     }
 
     /**
@@ -122,17 +125,29 @@ class ExpenseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+        $expense = \App\Models\Expense::findOrFail($id);
+        $input = $request->all();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $dataValidator = [
+            'outlet_id' => 'required|numeric',
+            'name' => 'required|string',
+            'amount' => 'required|numeric',
+            'unit' => 'required|string|max:10',
+            'price' => 'required|numeric',
+        ];
+        $validator = Validator::make($input,$dataValidator);
+        if($validator->fails()){
+            return back()->with('error', $validator->errors()->all());
+        }
+
+        $dataUpdate = [
+            'outlet_id' => $request->outlet_id,
+            'name' => $request->name,
+            'amount' => $request->amount,
+            'unit' => $request->unit,
+            'price' => $request->price,
+        ];
+        $expense->update($dataUpdate);
+        return back()->with('success', 'Berhasil memperbarui data pengeluaran');
     }
 }

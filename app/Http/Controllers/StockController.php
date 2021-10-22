@@ -81,6 +81,7 @@ class StockController extends Controller
             'amount' => 0,
             'price' => 0,
         ];
+        $stock = \App\Models\Stock::create($dataCreate);
 
         if ($userRole == 'employee') {
             $product = \App\Models\Product::findOrFail($request->product_id);
@@ -91,7 +92,6 @@ class StockController extends Controller
             ];
             $history = \App\Models\History::create($dataHistory);
         }
-        $stock = \App\Models\Stock::create($dataCreate);
         return back()->with('success', 'Berhasil menambahkan data stok');
     }
 
@@ -153,7 +153,9 @@ class StockController extends Controller
             'amount' => ($request->amount == 0) ? $request->old_amount : $new_amount,
             'price' => ($request->price == 0) ? $request->old_price : $request->price,
         ];
+        $stock->update($dataUpdate);
 
+        // history
         $product = \App\Models\Product::findOrFail($request->product_id);
         // if not change price
         if($request->price == 0) {
@@ -170,13 +172,11 @@ class StockController extends Controller
                 'user_id' => $user->id,
                 'category' => 'Stok',
                 'description' => 'Mengubah data stok '. $product->name .
-                                 '\n - stok: '. $new_amount .
-                                 '\n - harga: '. $request->price,
+                                 '<br> - stok: '. $new_amount .
+                                 '<br> - harga: '. $request->price,
             ];
         }
         $history = \App\Models\History::create($dataHistory);
-
-        $stock->update($dataUpdate);
         return back()->with('success', 'Berhasil memperbarui data stok');
     }
 

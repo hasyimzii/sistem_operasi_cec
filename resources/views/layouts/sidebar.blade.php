@@ -28,10 +28,13 @@
                     <li><a href="{{ route('category.index') }}">Kategori</a></li>
                 </ul>
             </li>
-            <li>
-                <a href="#" class="has-arrow" aria-expanded="false"><i class="icon icon-wallet-90"></i>
-                    <span class="nav-text">Keuangan</span>
-                </a>
+            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                <i class="icon icon-wallet-90"></i><span class="nav-text">Keuangan</span></a>
+                <ul aria-expanded="false">
+                    <li><a href="{{ route('expense.index') }}">Pengeluaran</a></li>
+                    <li><a href="{{ route('report.index') }}">Laporan Keuangan</a></li>
+                    <li><a href="{{ route('report.recap') }}">Rekap Keuangan</a></li>
+                </ul>
             </li>
             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                 <i class="icon icon-chart-bar-33"></i><span class="nav-text">Peramalan</span></a>

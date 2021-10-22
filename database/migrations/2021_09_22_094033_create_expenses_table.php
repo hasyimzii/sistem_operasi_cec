@@ -19,7 +19,7 @@ class CreateExpensesTable extends Migration
             $table->string('name');
             $table->integer('amount');
             $table->char('unit', 10);
-            $table->integer('price')->length(6);
+            $table->integer('price');
             $table->timestamps();
 
             $table->foreign('outlet_id')->references('id')->on('outlets')->onUpdate('cascade');
