@@ -46,24 +46,14 @@ class ReportController extends Controller
         }
         
         $totalExpense = 0;
-        // foreach($expense as $data) {
+        foreach($expense as $exp) {
+            $result = $exp->amount * $exp->price;
+            // insert result to totalExpense
+            $totalExpense += $result;
+        }
 
-        // }
-        return view('report.outlet',compact('outlet','totalSale','totalExpense'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $outlet = \App\Models\Outlet::findOrFail($id);
-        $expense = \App\Models\Expense::where("outlet_id", $outlet->id)->get();
-        $sale = \App\Models\Sale::where("outlet_id", $outlet->id)->get();
-        return view('report.show',compact('outlet','report'));
+        $totalAll = $totalSale - $totalExpense;
+        return view('report.outlet',compact('outlet','totalSale','totalExpense','totalAll'));
     }
 
     /**
@@ -74,8 +64,32 @@ class ReportController extends Controller
      */
     public function recap()
     {
-        $expense = \App\Models\Expense::where("outlet_id", $outlet->id)->get();
-        $sale = \App\Models\Sale::where("outlet_id", $outlet->id)->get();
-        return view('report.recap',compact('outlet','report'));
+        $expense = \App\Models\Expense::all();
+        $sale = \App\Models\Sale::all();
+        
+        $totalSale = 0;
+        // looping sale
+        foreach($sale as $data) {
+            $order = $data->order;
+            $totalOrder = 0;
+            // looping order
+            foreach($order as $or) {
+                $result = $or->amount * $or->price;
+                // insert result to totalOrder
+                $totalOrder += $result;
+            }
+            // insert total per order to totalSale
+            $totalSale += $totalOrder;
+        }
+        
+        $totalExpense = 0;
+        foreach($expense as $exp) {
+            $result = $exp->amount * $exp->price;
+            // insert result to totalExpense
+            $totalExpense += $result;
+        }
+        
+        $totalAll = $totalSale - $totalExpense;
+        return view('report.recap',compact('totalSale','totalExpense','totalAll'));
     }
 }

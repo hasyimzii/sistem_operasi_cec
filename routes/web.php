@@ -106,7 +106,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', '\App\Http\Controllers\ReportController@index')->name('index')->middleware('admin');
         Route::get('{id}/outlet', '\App\Http\Controllers\ReportController@outlet')->name('outlet')->middleware('admin');
         Route::get('{id}/show', '\App\Http\Controllers\ReportController@show')->name('show')->middleware('admin');
-        Route::post('/recap', '\App\Http\Controllers\ReportController@recap')->name('recap')->middleware('admin');
+        Route::get('/recap', '\App\Http\Controllers\ReportController@recap')->name('recap')->middleware('admin');
     });
 });
 
