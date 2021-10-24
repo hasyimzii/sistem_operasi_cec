@@ -150,7 +150,7 @@
                                     <span class="input-group-text">Rp</span>
                                 </div>
                                 <input type="number" class="form-control" style="background: #c4c4c4;"
-                                    value="{{ $message = Session::get('success')[1] }}" disabled>
+                                    value="{{ ($message = Session::get('success')) ? $message[1] : 0 }}" disabled>
                             </div>
                         </div>
                     </div>
