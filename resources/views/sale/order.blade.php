@@ -39,7 +39,7 @@
                                 <tr>
                                     <td>{{ $data->stock->product->name }}</td>
                                     <td>{{ $data->amount }}</td>
-                                    <td>{{ $data->price }}</td>
+                                    <td>Rp {{ $data->price }}</td>
                                     <td>Rp {{ ( $data->amount * $data->price) }}</td>
                                     <td>
                                         <div class="btn-group">
