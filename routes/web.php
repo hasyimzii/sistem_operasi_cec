@@ -105,8 +105,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['as' => 'report.','prefix' => 'laporan'], function () {
         Route::get('/', '\App\Http\Controllers\ReportController@index')->name('index')->middleware('admin');
         Route::get('{id}/outlet', '\App\Http\Controllers\ReportController@outlet')->name('outlet')->middleware('admin');
-        Route::get('{id}/show', '\App\Http\Controllers\ReportController@show')->name('show')->middleware('admin');
+        Route::post('{id}/outlet', '\App\Http\Controllers\ReportController@outletPeriode')->name('outletPeriode')->middleware('admin');
         Route::get('/recap', '\App\Http\Controllers\ReportController@recap')->name('recap')->middleware('admin');
+    });
+    // Ingredient
+    Route::group(['as' => 'ingredient.','prefix' => 'komposisi'], function () {
+        Route::get('/', '\App\Http\Controllers\IngredientController@index')->name('index')->middleware('admin');
+        Route::get('{id}/list', '\App\Http\Controllers\IngredientController@list')->name('list')->middleware('admin');
+        Route::get('{id}/create', '\App\Http\Controllers\IngredientController@create')->name('create')->middleware('admin');
+        Route::post('{id}/create', '\App\Http\Controllers\IngredientController@store')->name('store')->middleware('admin');
+        Route::get('{id}/edit', '\App\Http\Controllers\IngredientController@edit')->name('edit')->middleware('admin');
+        Route::post('{id}/edit', '\App\Http\Controllers\IngredientController@update')->name('update')->middleware('admin');
+        Route::post('{id}/delete', '\App\Http\Controllers\IngredientController@delete')->name('delete')->middleware('admin');
     });
 });
 

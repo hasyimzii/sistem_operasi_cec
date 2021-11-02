@@ -29,7 +29,7 @@
                                         @error('email')
                                             <div class="my-4 alert alert-danger alert-block">
                                                 <button type="button" class="close" data-dismiss="alert">×</button>
-                                                Login Gagal!
+                                                Email atau Password Salah!
                                             </div>
                                         @enderror
 

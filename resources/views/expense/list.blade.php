@@ -42,7 +42,7 @@
                                     <td>{{ $data->name }}</td>
                                     <td>{{ $data->amount }} {{ $data->unit }}</td>
                                     <td>Rp {{ $data->price }}</td>
-                                    <td>{{ ($data->amount * $data->price) }}</td>
+                                    <td>Rp {{ ($data->amount * $data->price) }}</td>
                                     <td>
                                         <div class="btn-group">
                                             <a href="{{ route('expense.show', $data->id) }}">

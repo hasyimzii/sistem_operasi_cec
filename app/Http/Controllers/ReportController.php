@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 
 class ReportController extends Controller
 {
@@ -17,6 +18,10 @@ class ReportController extends Controller
         return view('report.index',compact('outlet'));
     }
 
+    // periode var
+    public $month = "01";
+    public $year = "2000";
+
     /**
      * Display the specified resource.
      *
@@ -26,9 +31,34 @@ class ReportController extends Controller
     public function outlet($id)
     {
         $outlet = \App\Models\Outlet::findOrFail($id);
-        $sale = \App\Models\Sale::where("outlet_id", $outlet->id)->get();
-        $expense = \App\Models\Expense::where("outlet_id", $outlet->id)->get();
+        $list = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $month = 1;
+        $monthName = $list[$month - 1];
+        $year = 2000;
+        $totalSale = 0;
+        $totalExpense = 0;
+        $totalAll = 0;
+        return view('report.outlet',compact('outlet','monthName','year','totalSale','totalExpense','totalAll')); 
+    }
+    
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function outletPeriode(Request $request, $id)
+    {
+        $month = $request->month;
+        $year = $request->year;
 
+        $list = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $monthName = $list[$month - 1];
+
+        $outlet = \App\Models\Outlet::findOrFail($id);
+        $sale = \App\Models\Sale::where("outlet_id", $outlet->id)->whereMonth('created_at', '=', date($month))->whereYear('created_at', '=', date($year))->get();
+        $expense = \App\Models\Expense::where("outlet_id", $outlet->id)->whereMonth('created_at', '=', date($month))->whereYear('created_at', '=', date($year))->get();
 
         $totalSale = 0;
         // looping sale
@@ -53,20 +83,41 @@ class ReportController extends Controller
         }
 
         $totalAll = $totalSale - $totalExpense;
-        return view('report.outlet',compact('outlet','totalSale','totalExpense','totalAll'));
+        return view('report.outlet',compact('outlet','monthName','year','totalSale','totalExpense','totalAll')); 
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function recap()
     {
-        $expense = \App\Models\Expense::all();
-        $sale = \App\Models\Sale::all();
+        $list = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $month = 1;
+        $monthName = $list[$month - 1];
+        $year = 2000;
+        $totalSale = 0;
+        $totalExpense = 0;
+        $totalAll = 0;
+        return view('report.outlet',compact('monthName','year','totalSale','totalExpense','totalAll')); 
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function recapPeriode(Request $request, $id)
+    {
+        $expense = \App\Models\Expense::whereMonth('created_at', '=', date($month))->whereYear('created_at', '=', date($year))->get();
+        $sale = \App\Models\Sale::whereMonth('created_at', '=', date($month))->whereYear('created_at', '=', date($year))->get();
         
+        $list = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $monthName = $list[$month - 1];
+
         $totalSale = 0;
         // looping sale
         foreach($sale as $data) {
@@ -90,6 +141,6 @@ class ReportController extends Controller
         }
         
         $totalAll = $totalSale - $totalExpense;
-        return view('report.recap',compact('totalSale','totalExpense','totalAll'));
+        return view('report.recap',compact('monthName','year','totalSale','totalExpense','totalAll'));
     }
 }
