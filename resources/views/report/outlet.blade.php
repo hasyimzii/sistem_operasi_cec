@@ -24,7 +24,7 @@
         <!-- input periode -->
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Masukkan Periode Laporan</h4>
+                <h4 class="card-title">Masukkan Periode Laporan Keuangan</h4>
             </div>
             <div class="card-body">
                 <div class="basic-form">
@@ -55,7 +55,7 @@
                                     placeholder="Tulis tahun laporan..." maxlength="4" value="2000" required>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-block btn-primary">Lihat Laporan</button>
+                        <button type="submit" class="btn btn-block btn-primary">Lihat Laporan Keuangan</button>
                     </form>
                 </div>
             </div>

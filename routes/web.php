@@ -107,6 +107,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('{id}/outlet', '\App\Http\Controllers\ReportController@outlet')->name('outlet')->middleware('admin');
         Route::post('{id}/outlet', '\App\Http\Controllers\ReportController@outletPeriode')->name('outletPeriode')->middleware('admin');
         Route::get('/recap', '\App\Http\Controllers\ReportController@recap')->name('recap')->middleware('admin');
+        Route::post('/recap', '\App\Http\Controllers\ReportController@recapPeriode')->name('recapPeriode')->middleware('admin');
     });
     // Ingredient
     Route::group(['as' => 'ingredient.','prefix' => 'komposisi'], function () {

@@ -31,10 +31,13 @@ class ReportController extends Controller
     public function outlet($id)
     {
         $outlet = \App\Models\Outlet::findOrFail($id);
-        $list = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         $month = 1;
-        $monthName = $list[$month - 1];
         $year = 2000;
+
+        // set month name
+        $list = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $monthName = $list[$month - 1];
+        
         $totalSale = 0;
         $totalExpense = 0;
         $totalAll = 0;
@@ -53,6 +56,7 @@ class ReportController extends Controller
         $month = $request->month;
         $year = $request->year;
 
+        // set month name
         $list = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         $monthName = $list[$month - 1];
 
@@ -93,28 +97,38 @@ class ReportController extends Controller
      */
     public function recap()
     {
-        $list = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         $month = 1;
-        $monthName = $list[$month - 1];
         $year = 2000;
+
+        // set month name
+        $list = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $monthName = $list[$month - 1];
+        
         $totalSale = 0;
         $totalExpense = 0;
         $totalAll = 0;
-        return view('report.outlet',compact('monthName','year','totalSale','totalExpense','totalAll')); 
+        return view('report.recap',compact('monthName','year','totalSale','totalExpense','totalAll')); 
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function recapPeriode(Request $request, $id)
+    public function recapPeriode(Request $request)
     {
+        $month = $request->month;
+        $year = $request->year;
+
+        // set month name
+        $list = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $monthName = $list[$month - 1];
+
         $expense = \App\Models\Expense::whereMonth('created_at', '=', date($month))->whereYear('created_at', '=', date($year))->get();
         $sale = \App\Models\Sale::whereMonth('created_at', '=', date($month))->whereYear('created_at', '=', date($year))->get();
         
+        // set month name
         $list = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         $monthName = $list[$month - 1];
 
