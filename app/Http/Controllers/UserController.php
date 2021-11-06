@@ -61,7 +61,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = \App\Models\User::findOrFail($id);
-        $outlet = \App\Models\Outlet::all();
+        $outlet = \App\Models\Outlet::where('id', '!=', 1)->get();
         return view('user.edit',compact('user', 'outlet'));
     }
 

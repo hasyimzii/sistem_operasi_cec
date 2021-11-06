@@ -39,7 +39,7 @@
             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                 <i class="icon icon-chart-bar-33"></i><span class="nav-text">Peramalan</span></a>
                 <ul aria-expanded="false">
-                    <li><a href="./index.html">Peramalan Penjualan</a></li>
+                    <li><a href="{{ route('forecast.index') }}">Peramalan Penjualan</a></li>
                     <li><a href="{{ route('ingredient.index') }}">Komposisi Produk</a></li>
                 </ul>
             </li>

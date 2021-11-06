@@ -119,6 +119,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('{id}/edit', '\App\Http\Controllers\IngredientController@update')->name('update')->middleware('admin');
         Route::post('{id}/delete', '\App\Http\Controllers\IngredientController@delete')->name('delete')->middleware('admin');
     });
+    // Forecast
+    Route::group(['as' => 'forecast.','prefix' => 'peramalan'], function () {
+        Route::get('/', '\App\Http\Controllers\ForecastController@index')->name('index')->middleware('admin');
+        Route::get('{id}/list', '\App\Http\Controllers\ForecastController@list')->name('list')->middleware('admin');
+        Route::post('{id}/result', '\App\Http\Controllers\ForecastController@result')->name('result')->middleware('admin');
+    });
 });
 
 Auth::routes();

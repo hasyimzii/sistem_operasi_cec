@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Data Outlet Pengeluaran')
+@section('title', 'Data Outlet Peramalan')
 @section('content')
 <div class="row page-titles mx-0" style="background: #343957;">
     <div class="col-sm-6 mt-1 p-md-0">
         <div class="welcome-text">
-            <h4 class="text-white">Data Outlet Pengeluaran</h4>
+            <h4 class="text-white">Data Outlet Peramalan</h4>
         </div>
     </div>
 </div>
@@ -16,7 +16,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">(Pilih outlet untuk melihat pengeluaran)</h4>
+                <h4 class="card-title">(Pilih outlet untuk melihat peramalan)</h4>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -34,7 +34,7 @@
                                     <td>{{ $data->name }}</td>
                                     <td>{{ $data->address }}</td>
                                     <td>
-                                        <a href="{{ route('expense.list', $data->id) }}">
+                                        <a href="{{ route('forecast.list', $data->id) }}">
                                             <button type="button" class="btn btn-info">
                                                 <i class="fa fa-eye"></i>
                                             </button>

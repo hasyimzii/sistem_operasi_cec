@@ -1,45 +1,47 @@
 @extends('layouts.app')
 
-@section('title', 'Data Outlet Pengeluaran')
+@section('title', 'Hasil Peramalan')
 @section('content')
 <div class="row page-titles mx-0" style="background: #343957;">
     <div class="col-sm-6 mt-1 p-md-0">
         <div class="welcome-text">
-            <h4 class="text-white">Data Outlet Pengeluaran</h4>
+            <h4 class="text-white">Hasil Peramalan</h4>
         </div>
+    </div>
+    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+        <a href="{{ route('forecast.list', $outlet->id) }}">
+            <button type="button" class="btn btn-light">
+                Kembali
+            </button>
+        </a>
     </div>
 </div>
 <!-- row -->
 
+<!-- forecast -->
 
+
+<!-- ingredient -->
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">(Pilih outlet untuk melihat pengeluaran)</h4>
+                <h4 class="card-title">Peramalan Kebutuhan Komposisi Produk {{ $stock->product->name }} Bulan Depan</h4>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table id="example" class="display text-muted" style="min-width: 845px">
                         <thead>
                             <tr>
-                                <th>Nama Outlet</th>
-                                <th>Alamat</th>
-                                <th>Opsi</th>
+                                <th>Nama Komposisi</th>
+                                <th>Jumlah Kebutuhan</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($outlet as $data)
+                            @forelse($ingredient as $data)
                                 <tr>
                                     <td>{{ $data->name }}</td>
-                                    <td>{{ $data->address }}</td>
-                                    <td>
-                                        <a href="{{ route('expense.list', $data->id) }}">
-                                            <button type="button" class="btn btn-info">
-                                                <i class="fa fa-eye"></i>
-                                            </button>
-                                        </a>
-                                    </td>
+                                    <td>{{ ($data->amount * ...) }} {{ $data->unit }}</td>
                                 </tr>
                             @empty
                             @endforelse

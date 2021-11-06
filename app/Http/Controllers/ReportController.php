@@ -64,6 +64,7 @@ class ReportController extends Controller
         $sale = \App\Models\Sale::where("outlet_id", $outlet->id)->whereMonth('created_at', '=', date($month))->whereYear('created_at', '=', date($year))->get();
         $expense = \App\Models\Expense::where("outlet_id", $outlet->id)->whereMonth('created_at', '=', date($month))->whereYear('created_at', '=', date($year))->get();
 
+        // count report
         $totalSale = 0;
         // looping sale
         foreach($sale as $data) {
@@ -132,6 +133,7 @@ class ReportController extends Controller
         $list = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         $monthName = $list[$month - 1];
 
+        // count report
         $totalSale = 0;
         // looping sale
         foreach($sale as $data) {

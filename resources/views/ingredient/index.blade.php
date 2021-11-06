@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Data Produk')
+@section('title', 'Data Produk Komposisi')
 @section('content')
 <div class="row page-titles mx-0" style="background: #343957;">
     <div class="col-sm-6 mt-1 p-md-0">
         <div class="welcome-text">
-            <h4 class="text-white">Data Produk</h4>
+            <h4 class="text-white">Data Produk Komposisi</h4>
         </div>
     </div>
 </div>
