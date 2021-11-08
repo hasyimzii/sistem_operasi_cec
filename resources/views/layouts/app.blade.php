@@ -159,11 +159,11 @@
     <script src="{{ asset('assets/js/quixnav-init.js') }}"></script>
     <script src="{{ asset('assets/js/custom.min.js') }}"></script>
 
-
     <!-- Datatable -->
-    <script src="{{ asset('assets/vendor/datatables/js/jquery.dataTables.min.js') }}">
-    </script>
+    <script src="{{ asset('assets/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins-init/datatables.init.js') }}"></script>
+    
+    @yield('script')
 </body>
 
 </html>
