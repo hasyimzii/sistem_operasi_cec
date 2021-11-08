@@ -35,7 +35,7 @@ class ForecastController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function forecast($periode, $dataset)
+    public function exponentialSmoothing($periode, $dataset)
     {
         $X = $dataset;
         $F = [];
@@ -148,7 +148,7 @@ class ForecastController extends Controller
         }
 
         // result
-        $exponentialSmoothing = $this->forecast($periode, $dataset);
+        $exponentialSmoothing = $this->exponentialSmoothing($periode, $dataset);
 
         $forecast = $exponentialSmoothing['result'];
         $last = $exponentialSmoothing['last'];
