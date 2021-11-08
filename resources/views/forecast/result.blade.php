@@ -47,14 +47,16 @@
                         <thead>
                             <tr>
                                 <th>Nama Komposisi</th>
-                                <th>Jumlah Kebutuhan</th>
+                                <th>Komposisi per Produksi</th>
+                                <th>Jumlah Kebutuhan Bulan Depan</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($ingredient as $data)
                                 <tr>
                                     <td>{{ $data->name }}</td>
-                                    <td>{{ ($data->amount * 1) }} {{ $data->unit }}</td>
+                                    <td>{{ $data->amount }} {{ $data->unit }}</td>
+                                    <td>{{ ($data->amount * $last) }} {{ $data->unit }}</td>
                                 </tr>
                             @empty
                             @endforelse
@@ -76,7 +78,7 @@
             type: 'areaspline'
         },
         title: {
-            text: 'Hasil Peramalan'
+            text: 'Hasil Peramalan (MAPE = {{ $mape }}%)'
         },
         legend: {
             layout: 'vertical',
@@ -114,7 +116,7 @@
             data: {!! json_encode($dataset) !!}
         }, {
             name: 'Peramalan',
-            data: {!! json_encode($dataset) !!}
+            data: {!! json_encode($forecast) !!}
         }]
     });
 </script>
