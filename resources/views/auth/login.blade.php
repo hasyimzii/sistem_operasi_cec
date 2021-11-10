@@ -22,7 +22,7 @@
                         <div class="row no-gutters">
                             <div class="col-xl-12">
                                 <div class="auth-form">
-                                    <h3 class="text-center mb-4">Sistem Operasional Creative Economy Center</h3>
+                                    <h3 class="text-center mb-4">Sistem Operasional Outlet Creative Economy Center</h3>
                                     <form action="{{ route('login') }}" method="post">
                                         @csrf
 
