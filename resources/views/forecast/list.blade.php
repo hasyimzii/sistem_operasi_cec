@@ -21,6 +21,12 @@
 
 <div class="col-xl-12 col-xxl-12">
     <div class="card">
+        @if($message = Session::get('error'))
+            <div class="mt-4 mb-0 mx-4 alert alert-danger alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{ $message }}
+            </div>
+        @endif
         <div class="card-body">
             <div class="basic-form">
                 <form action="{{ route('forecast.result', $outlet->id) }}" method="post">

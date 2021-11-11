@@ -26,7 +26,7 @@ class ForecastController extends Controller
     public function list($id)
     {
         $outlet = \App\Models\Outlet::findOrFail($id);
-        $stock = \App\Models\Stock::where('outlet_id', $id)->where('amount', '>', 0)->get();
+        $stock = \App\Models\Stock::where('outlet_id', $id)->get();
         return view('forecast.list',compact('outlet','stock'));
     }
 
@@ -122,6 +122,23 @@ class ForecastController extends Controller
             ->groupBy('periode')->get();
 
 
+
+        // check if product have sales
+        $allSales = 0;
+        $monthSales = [];
+        foreach($totalSales as $data) {
+            $allSales += $data['total'];
+            $monthSales[] = $data['periode'];
+        }
+        if($allSales <= 0) {
+            return back()->with('error', 'Produk masih belum pernah terjual!');
+        }
+        if(count($monthSales) <= 1) {
+            return back()->with('error', 'Produk minimal harus terjual dalam 2 bulan!');
+        }
+
+
+
         // sales per month for dataset
         $dataset = [];
         for($i=0; $i<count($periode); $i++) {
@@ -134,7 +151,7 @@ class ForecastController extends Controller
                 }
             }
         }
-
+        
         // get periodes to array
         $month = [];
         for ($i = 0; $i <= count($periode); $i++) {
@@ -146,7 +163,7 @@ class ForecastController extends Controller
                 $month[$i] = $nextMonth;
             }
         }
-
+        
         // result
         $exponentialSmoothing = $this->exponentialSmoothing($periode, $dataset);
 
