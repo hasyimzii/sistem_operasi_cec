@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Stok')
+@section('title', 'Edit Produk')
 @section('content')
 <div class="row page-titles mx-0" style="background: #343957;">
     <div class="col-sm-6 mt-1 p-md-0">
         <div class="welcome-text">
-            <h4 class="text-white">Edit Stok</h4>
+            <h4 class="text-white">Edit Produk</h4>
         </div>
     </div>
     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
