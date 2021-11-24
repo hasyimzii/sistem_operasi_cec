@@ -37,9 +37,8 @@ class ForecastController extends Controller
      */
     public function exponentialSmoothing($periode, $dataset)
     {
-        // exponential smoothing
-        // F[periode ke-t] = F[t-1] + alpha(A[t-1] - F[t-1])
-
+        // Adaptive Response Rate Single Exponential Smoothing
+        // F[periode ke-t] = (alpha[t] * X[t]) + ((1 - alpha[t]) * F[t])
         $X = $dataset; // dataset
         $F = []; // peramalan
         $e = []; // error/kesalahan
