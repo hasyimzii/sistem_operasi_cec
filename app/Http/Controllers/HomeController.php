@@ -15,7 +15,7 @@ class HomeController extends Controller
     {
         $user = auth()->user();
         // check is active
-        if($user->active = 1) {
+        if($user->active == 1) {
             // check role return dashboard
             if ($user->hasRole('admin')) {
                 return redirect()->route('sale.index');
@@ -24,11 +24,13 @@ class HomeController extends Controller
                 return redirect()->route('sale.create', $user->outlet->id);
             }
             else {
+                auth()->logout();
                 return redirect()->route('login');
             }
         }
-        // if no auth
-        return redirect()->route('login');
+        // if not active
+        auth()->logout();
+        return redirect()->route('login')->with('error', 'Akun sudah tidak aktif!');;
     }
 
     /**

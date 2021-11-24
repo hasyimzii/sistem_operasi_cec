@@ -37,15 +37,18 @@ class ForecastController extends Controller
      */
     public function exponentialSmoothing($periode, $dataset)
     {
-        $X = $dataset;
-        $F = [];
-        $e = [];
-        $E = [];
-        $AE = [];
-        $alpha = [];
-        $beta = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
-        $PE = [];
-        $MAPE = [];
+        // exponential smoothing
+        // F[periode ke-t] = F[t-1] + alpha(A[t-1] - F[t-1])
+
+        $X = $dataset; // dataset
+        $F = []; // peramalan
+        $e = []; // error/kesalahan
+        $E = []; // error dihaluskan
+        $AE = []; //error absolut
+        $alpha = []; // konstanta smoothing
+        $beta = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]; // range alpha
+        $PE = []; // persentase error
+        $MAPE = []; // rata rata kesalahan
 
         // perhitungan peramalan menggunakan nilai beta mulai dari 0.1 sampai 0.9
         for($i = 0; $i < count($beta); $i++) {

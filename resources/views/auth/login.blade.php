@@ -26,6 +26,12 @@
                                     <form action="{{ route('login') }}" method="post">
                                         @csrf
 
+                                        @if($message = Session::get('error'))
+                                            <div class="my-4 alert alert-danger alert-block">
+                                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                                {{ $message }}
+                                            </div>
+                                        @endif
                                         @error('email')
                                             <div class="my-4 alert alert-danger alert-block">
                                                 <button type="button" class="close" data-dismiss="alert">×</button>
@@ -38,11 +44,6 @@
                                             <input type="email"
                                                 class="form-control @error('email') is-invalid @enderror" name="email"
                                                 value="{{ old('email') }}" autofocus required>
-                                            @error('email')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
                                         </div>
                                         <div class="form-group">
                                             <label><strong>Password</strong></label>

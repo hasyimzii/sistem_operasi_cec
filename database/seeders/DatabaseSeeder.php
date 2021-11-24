@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Outlet::create([
-            'name' => 'lululul',
+            'name' => 'outlet1',
             'address' => 'alskfhlashf',
             'phone' => '128497120',
         ]);
@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             'outlet_id' => 1,
             'name' => 'Admin',
             'email' => 'adm@cec.id',
-            'password' => bcrypt('123'),
+            'password' => bcrypt('123123123'),
             'phone' => '088800008888',
             'active' => 1,
         ]);
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
             'outlet_id' => 2,
             'name' => 'Employee',
             'email' => 'emp@cec.id',
-            'password' => bcrypt('123'),
+            'password' => bcrypt('123123123'),
             'phone' => '088800008888',
             'active' => 1,
         ]);
