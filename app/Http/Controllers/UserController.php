@@ -81,19 +81,26 @@ class UserController extends Controller
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users,email,'.$user->id,
             'phone' => 'required|string|max:15',
+            'password' => 'required|string|min:8',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
             return back()->with('error', $validator->errors()->all());
         }
 
-        $dataUpdate = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-        ];
-        $user->update($dataUpdate);
-        return back()->with('success', 'Berhasil memperbarui data akun');
+        // check password
+        if(Hash::check($request->password, $user->password)) {
+            $dataUpdate = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+            ];
+            $user->update($dataUpdate);
+            return back()->with('success', 'Berhasil memperbarui data akun');
+        }
+        else {
+            return back()->with('error', ['Password kamu salah!']);
+        }        
     }
 
     /**

@@ -52,6 +52,11 @@
                         <label>No. Telpon</label>
                         <input type="text" class="form-control input-default " name="phone" value="{{ $user->phone }}"
                             placeholder="Tulis no. telpon kamu... (e.g. 088812459583)" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Validasi Password</label>
+                        <input type="password" class="form-control input-default " name="password"
+                            placeholder="Masukkan password kamu..." required>
                     </div><br>
                     <button type="submit" class="btn btn-block btn-primary">Edit Data</button>
                 </form>
