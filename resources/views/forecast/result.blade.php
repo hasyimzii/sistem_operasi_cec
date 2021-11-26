@@ -78,7 +78,7 @@
             type: 'areaspline'
         },
         title: {
-            text: 'Hasil Peramalan (MAPE = {{ $mape }}%)'
+            text: 'Hasil Peramalan (MAPE = @json($mape)%)'
         },
         legend: {
             layout: 'vertical',
@@ -92,7 +92,7 @@
                 Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF'
         },
         xAxis: {
-            categories: {!! json_encode($month) !!},
+            categories: @json($month),
         },
         yAxis: {
             title: {
@@ -113,10 +113,10 @@
         },
         series: [{
             name: 'Penjualan',
-            data: {!! json_encode($dataset) !!}
+            data: @json($dataset)
         }, {
             name: 'Peramalan',
-            data: {!! json_encode($forecast) !!}
+            data: @json($forecast)
         }]
     });
 </script>
