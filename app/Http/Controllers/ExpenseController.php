@@ -59,9 +59,9 @@ class ExpenseController extends Controller
         $dataValidator = [
             'outlet_id' => 'required|numeric',
             'name' => 'required|string',
-            'amount' => 'required|numeric',
+            'amount' => 'required|numeric|gte:0',
             'unit' => 'required|string|max:10',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|gte:0',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
@@ -131,9 +131,9 @@ class ExpenseController extends Controller
         $dataValidator = [
             'outlet_id' => 'required|numeric',
             'name' => 'required|string',
-            'amount' => 'required|numeric',
+            'amount' => 'required|numeric|gte:0',
             'unit' => 'required|string|max:10',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|gte:0',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){

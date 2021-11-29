@@ -187,9 +187,9 @@ class SaleController extends Controller
         $dataValidator = [
             'outlet_id' => 'required|numeric',
             'stock_id' => 'required|numeric',
-            'old_amount' => 'required|numeric',
+            'old_amount' => 'required|numeric|gte:0',
             'amount' => 'required|numeric',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|gte:0',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
@@ -198,6 +198,11 @@ class SaleController extends Controller
 
         // count new amount
         $new_amount = $request->old_amount + $request->amount;
+
+        // validate new amount
+        if($new_amount <= 0) {
+            return back()->with('error', ['Hasil jumlah order tidak boleh nol atau minus']);
+        }
 
         $dataUpdate = [
             'outlet_id' => $request->outlet_id,

@@ -58,7 +58,7 @@ class IngredientController extends Controller
         $dataValidator = [
             'product_id' => 'required|numeric',
             'name' => 'required|string',
-            'amount' => 'required|numeric',
+            'amount' => 'required|numeric|gte:0',
             'unit' => 'required|string|max:10',
         ];
         $validator = Validator::make($input,$dataValidator);
@@ -103,7 +103,7 @@ class IngredientController extends Controller
         $dataValidator = [
             'product_id' => 'required|numeric',
             'name' => 'required|string',
-            'amount' => 'required|numeric',
+            'amount' => 'required|numeric|gte:0',
             'unit' => 'required|string|max:10',
         ];
         $validator = Validator::make($input,$dataValidator);

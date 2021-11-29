@@ -135,10 +135,10 @@ class StockController extends Controller
 
         $dataValidator = [
             'product_id' => 'required|numeric',
-            'old_amount' => 'required|numeric',
+            'old_amount' => 'required|numeric|gte:0',
             'amount' => 'required|numeric',
-            'old_price' => 'required|numeric',
-            'price' => 'required|numeric',
+            'old_price' => 'required|numeric|gte:0',
+            'price' => 'required|numeric|gte:0',
         ];
         $validator = Validator::make($input,$dataValidator);
         if($validator->fails()){
@@ -147,6 +147,11 @@ class StockController extends Controller
 
         // count new amount
         $new_amount = $request->old_amount + $request->amount;
+
+        // validate new amount
+        if($new_amount < 0) {
+            return back()->with('error', ['Hasil jumlah stok tidak boleh minus']);
+        }
 
         $dataUpdate = [
             'product_id' => $request->product_id,
