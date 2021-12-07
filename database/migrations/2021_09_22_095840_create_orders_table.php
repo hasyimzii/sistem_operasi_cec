@@ -15,14 +15,11 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sale_id');
-            $table->foreignId('stock_id');
+            $table->foreignId('sale_id')->constrained();
+            $table->foreignId('stock_id')->constrained();
             $table->integer('amount');
             $table->integer('price');
             $table->timestamps();
-            
-            $table->foreign('sale_id')->references('id')->on('sales')->onUpdate('cascade');
-            $table->foreign('stock_id')->references('id')->on('stocks')->onUpdate('cascade');
         });
     }
 

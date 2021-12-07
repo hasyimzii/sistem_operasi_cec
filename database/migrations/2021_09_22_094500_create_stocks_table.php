@@ -15,14 +15,11 @@ class CreateStocksTable extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('outlet_id');
-            $table->foreignId('product_id');
+            $table->foreignId('outlet_id')->constrained();
+            $table->foreignId('product_id')->constrained();
             $table->integer('amount');
             $table->integer('price');
             $table->timestamps();
-            
-            $table->foreign('outlet_id')->references('id')->on('outlets')->onUpdate('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade');
         });
     }
 

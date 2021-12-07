@@ -15,14 +15,12 @@ class CreateExpensesTable extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('outlet_id');
+            $table->foreignId('outlet_id')->constrained();
             $table->string('name');
             $table->integer('amount');
             $table->char('unit', 10);
             $table->integer('price');
             $table->timestamps();
-
-            $table->foreign('outlet_id')->references('id')->on('outlets')->onUpdate('cascade');
         });
     }
 

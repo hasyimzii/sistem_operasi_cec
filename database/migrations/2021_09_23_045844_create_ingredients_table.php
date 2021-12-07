@@ -15,13 +15,11 @@ class CreateIngredientsTable extends Migration
     {
         Schema::create('ingredients', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id');
+            $table->foreignId('product_id')->constrained();
             $table->string('name');
             $table->integer('amount');
             $table->char('unit', 10);
             $table->timestamps();
-            
-            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade');
         });
     }
 
