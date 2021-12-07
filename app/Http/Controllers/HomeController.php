@@ -46,11 +46,15 @@ class HomeController extends Controller
             $history = \App\Models\History::all();
         }
         else {
-            $outletId = $user->outlet->id;
-            $history = \App\Models\History::select('histories.*')
-                ->join('users', 'users.id', '=', 'histories.user_id')
-                ->join('outlets', 'outlets.id', '=', 'users.outlet_id')
-                ->where('outlet_id', $outletId)->get();
+            // $history = \App\Models\History::select('histories.*')
+            //     ->join('users', 'users.id', '=', 'histories.user_id')
+            //     ->join('outlets', 'outlets.id', '=', 'users.outlet_id')
+            //     ->where('outlet_id', $outletId)->get();
+
+            $history = \App\Models\History::whereHas('user', function($q){
+                $outletId = auth()->user()->outlet->id;
+                $q->where('outlet_id', $outletId);
+            })->get();
         }
         return view('home.history',compact('history'));
     }
