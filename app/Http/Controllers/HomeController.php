@@ -51,9 +51,8 @@ class HomeController extends Controller
             //     ->join('outlets', 'outlets.id', '=', 'users.outlet_id')
             //     ->where('outlet_id', $outletId)->get();
 
-            $history = \App\Models\History::whereHas('user', function($q){
-                $outletId = auth()->user()->outlet->id;
-                $q->where('outlet_id', $outletId);
+            $history = \App\Models\History::whereHas('user', function($q) use ($user){
+                $q->where('outlet_id', $user->outlet->id);
             })->get();
         }
         return view('home.history',compact('history'));
